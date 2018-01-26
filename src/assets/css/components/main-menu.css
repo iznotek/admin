@@ -1,0 +1,41 @@
+.c-mainMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: 100vh;
+  width: var(--col-3);
+  border-right: 1px solid var(--grey-light);
+  overflow: hidden;
+  background-color: var(--light);
+  box-shadow: 1px 0 8px rgba(0, 0, 0, .04);
+
+  &__link {
+    &.u-is-active {
+      font-weight: 500;
+    }
+  }
+
+  &__nav {
+    padding-top: var(--bsl);
+    padding-bottom: var(--bsl);
+  }
+
+  &__section {
+    padding: var(--bsl);
+    margin-bottom: -1px;
+    border-bottom: 1px solid var(--grey-light);
+  }
+
+  &__subtitle {
+    font-size: var(--ms-xs);
+    letter-spacing: var(--spacing-wide);
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  &__title {
+    padding-right: var(--bsl);
+    padding-left: var(--bsl);
+  }
+}

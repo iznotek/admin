@@ -1,0 +1,40 @@
+a {
+  color: var(--grey-darkest);
+  text-decoration: none;
+}
+
+body {
+  font-family: var(--primary-font);
+	font-weight: 300;
+	letter-spacing: var(--spacing);
+  line-height: var(--bsl);
+  color: var(--grey-darkest);
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+img {
+  width: 100%;
+}
+
+input,
+textarea {
+  font-family: var(--primary-font);
+}
+
+main {
+  margin-left: var(--col-3);
+}
+
+:--headings {
+  font-size: var(--ms-r);
+  font-weight: 500;
+}
+
+textarea {
+  resize: none;
+}

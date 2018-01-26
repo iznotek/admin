@@ -1,0 +1,38 @@
+.tooltip {
+  position: relative;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(var(--bsl) / 1.5);
+    width: calc(var(--bsl) / 1.5);
+    border: 1px solid var(--grey-light);
+    border-radius: 50%;
+    font-size: var(--ms-xs);
+    color: var(--grey-dark);
+    cursor: pointer;
+
+    &:hover {
+      & ~ .tooltip__content {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__content {
+    position: absolute;
+    bottom: var(--bsl);
+    left: calc(-var(--bsl) / 3);
+    z-index: 1;
+    width: var(--col-5);
+    padding: calc(var(--bsl) / 2);
+    // border: 1px solid var(--dark);
+    border-radius: var(--radius);
+    background-color: var(--grey);
+    color: var(--light);
+    opacity: 0;
+    transition: opacity .25s linear;
+    pointer-events: none;
+  }
+}

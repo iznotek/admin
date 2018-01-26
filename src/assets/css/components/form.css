@@ -1,0 +1,49 @@
+.c-form {
+  display: flex;
+  justify-content: space-between;
+
+  &__actions {
+    position: sticky;
+    top: calc(var(--bsl) * 3);
+    align-self: flex-start;
+    width: var(--col-6);
+    padding: var(--bsl);
+    margin-top: calc(-var(--bsl) * 3);
+    border: 1px solid var(--grey-light);
+    border-radius: var(--radius);
+    background-color: var(--light);
+    box-shadow: 0 0 8px rgba(0, 0, 0, .04);
+  }
+
+  &__field {
+    margin-bottom: var(--bsl);
+  }
+
+  &__fieldsets {
+    width: var(--col-12);
+  }
+
+  &__input {
+    width: 100%;
+    padding: calc(var(--bsl) / 2);
+    margin-bottom: -2px;
+    border: 1px solid var(--grey-light);
+    border-radius: var(--radius);
+    font-size: var(--ms-r);
+    font-weight: 300;
+    letter-spacing: var(--spacing);
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__labelName {
+    font-size: var(--ms-xs);
+    letter-spacing: var(--spacing-wide);
+    text-transform: uppercase;
+    color: var(--grey-dark);
+  }
+}

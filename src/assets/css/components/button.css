@@ -1,0 +1,15 @@
+.c-button {
+  padding: calc(var(--bsl) / 2) var(--bsl);
+  margin-bottom: -2px;
+  border: 1px solid var(--grey);
+  border-radius: var(--bsl);
+  font-size: var(--ms-s);
+  text-transform: uppercase;
+  letter-spacing: var(--spacing-wide);
+  cursor: pointer;
+
+  &--submit {
+    border-color: var(--secure);
+    color: var(--secure);
+  }
+}
