@@ -2,19 +2,6 @@
   display: flex;
   justify-content: space-between;
 
-  &__actions {
-    position: sticky;
-    top: calc(var(--bsl) * 3);
-    align-self: flex-start;
-    width: var(--col-6);
-    padding: var(--bsl);
-    margin-top: calc(-var(--bsl) * 3);
-    border: 1px solid var(--grey-light);
-    border-radius: var(--radius);
-    background-color: var(--light);
-    box-shadow: 0 0 8px rgba(0, 0, 0, .04);
-  }
-
   &__field {
     margin-bottom: var(--bsl);
   }

@@ -1,4 +1,4 @@
-.tooltip {
+.c-tooltip {
   position: relative;
 
   &__icon {
@@ -14,7 +14,7 @@
     cursor: pointer;
 
     &:hover {
-      & ~ .tooltip__content {
+      & ~ .c-tooltip__content {
         opacity: 1;
       }
     }
@@ -27,7 +27,6 @@
     z-index: 1;
     width: var(--col-5);
     padding: calc(var(--bsl) / 2);
-    // border: 1px solid var(--dark);
     border-radius: var(--radius);
     background-color: var(--grey);
     color: var(--light);

@@ -10,16 +10,16 @@
             <div class="c-form__field">
               <div class="c-form__label">
                 <label class="c-form__labelName" for="headline">Headline *</label>
-                <tool-tip content="<p></p>" />
+                <tool-tip :content="headlineTip" />
               </div>
-              <input class="c-form__input" type="text" id="headline" v-model="headline" required>
+              <input class="c-form__input" type="text" id="headline" v-model="headline">
             </div>
             <div class="c-form__field">
               <div class="c-form__label">
                 <label class="c-form__labelName" for="summary">Summary *</label>
-                <tool-tip content="<p></p>" />
+                <tool-tip :content="summaryTip" />
               </div>
-              <textarea class="c-form__input" id="summary" v-model="summary" required></textarea>
+              <textarea class="c-form__input" id="summary" v-model="summary"></textarea>
             </div>
           </fieldset>
           <!-- / Details -->
@@ -29,24 +29,36 @@
             <div class="c-form__field">
               <div class="c-form__label">
                 <label class="c-form__labelName" for="description">Description *</label>
-                <tool-tip content="<p>Describes what the page is about. Good for Google.</p>" />
+                <tool-tip :content="descriptionTip" />
               </div>
-              <textarea class="c-form__input" id="description" v-model="description" required></textarea>
+              <textarea class="c-form__input" id="description" v-model="description"></textarea>
             </div>
             <div class="c-form__field">
               <div class="c-form__label">
                 <label class="c-form__labelName" for="title">Title</label>
-                <tool-tip content="<p>The title shows up in the browser tab.</p>" />
+                <tool-tip :content="titleTip" />
               </div>
               <input class="c-form__input" type="text" id="title" v-model="title">
             </div>
           </fieldset>
           <!-- / SEO -->
         </div>
-        <div class="c-form__actions">
-          <span>{{title}}</span>
+        <aside class="c-checklist">
+          <h1>Checklist</h1>
+          <ul class="c-checklist__items">
+            <!-- Loop through required fields? -->
+            <li class="c-checklist__item">
+              <h2>Headline</h2>
+              <span v-if="checkRequiredField(this.headline)">&#10003;</span>
+            </li>
+            <li class="c-checklist__item">
+              <h2>Description</h2>
+              <span v-if="checkRequiredField(this.description)">&#10003;</span>
+            </li>
+            <!-- / -->
+          </ul>
           <input class="c-button c-button--submit" type="submit" value="Publish">
-        </div>
+        </aside>
       </form>
     </div>
   </article>
@@ -56,18 +68,32 @@
 import Tooltip from '@/components/shared/Tooltip'
 
 export default {
-  data () {
-    return {
-      title: '',
-      description: '',
-      headline: '',
-      summary: ''
-    }
-  },
   components: {
     'toolTip': Tooltip
   },
+  data () {
+    return {
+      title: '',
+      titleTip: '<p>The title shows up in the browser tab.</p>',
+      description: '',
+      descriptionTip: '<p>Describes what the case is about.</p>',
+      headline: '',
+      headlineTip: '',
+      summary: '',
+      summaryTip: ''
+    }
+  },
   methods: {
+    checkRequiredField (field) {
+      // Possibly add email verification?
+      // Or add other restrictions, like minimum length
+      if (field.trim() !== '') {
+        return true
+      } else {
+        // Show error on page
+        console.log('Empty')
+      }
+    },
     submitForm () {
       if (this.title.trim() === '') {
         this.title = this.headline

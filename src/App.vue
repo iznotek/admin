@@ -19,7 +19,6 @@
 import MainMenu from '@/components/shared/MainMenu'
 
 export default {
-  name: 'app',
   components: {
     'mainMenu': MainMenu
   }

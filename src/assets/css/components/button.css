@@ -1,5 +1,5 @@
 .c-button {
-  padding: calc(var(--bsl) / 2) var(--bsl);
+  padding: calc(var(--bsl) / 3) var(--bsl);
   margin-bottom: -2px;
   border: 1px solid var(--grey);
   border-radius: var(--bsl);
