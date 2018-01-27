@@ -3,7 +3,10 @@
   justify-content: space-between;
 
   &__field {
-    margin-bottom: var(--bsl);
+
+    &:last-child {
+      margin-bottom: calc(var(--bsl) * 2);
+    }
   }
 
   &__fieldsets {
@@ -12,25 +15,57 @@
 
   &__input {
     width: 100%;
-    padding: calc(var(--bsl) / 2);
+    padding: calc(var(--bsl) / 2) calc(var(--bsl) / 1.5);
     margin-bottom: -2px;
     border: 1px solid var(--grey-light);
     border-radius: var(--radius);
     font-size: var(--ms-r);
     font-weight: 300;
     letter-spacing: var(--spacing);
+    caret-color: var(--grey);
   }
 
   &__label {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
   &__labelName {
+    position: relative;
+    top: calc(var(--bsl) / 2);
+    left: calc(var(--bsl) / 3);
     font-size: var(--ms-xs);
     letter-spacing: var(--spacing-wide);
     text-transform: uppercase;
     color: var(--grey-dark);
+    transform: translate(calc(var(--bsl) / 3), var(--bsl));
+    transition: transform .25s cubic-bezier(.75, 0, 0, 1);
+    cursor: text;
+
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      z-index: -1;
+      height: calc(var(--bsl) / 2);
+      width: 100%;
+      background-color: var(--light);
+      opacity: 0;
+      transition: opacity 0s linear .25s;
+    }
+
+    &.u-isUntransformed {
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  & .c-tooltip {
+    right: calc(var(--bsl) / 2);
+    top: calc(var(--bsl) * 1.5);
   }
 }

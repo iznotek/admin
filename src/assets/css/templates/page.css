@@ -1,8 +1,9 @@
 .t-page {
+  margin-left: var(--col-3);
 
   &__content {
     min-height: calc(100vh - (var(--bsl) * 5));
-    padding: var(--bsl) var(--col-1);
+    padding: calc(var(--bsl) * 2) var(--col-1);
     margin-top: -1px;
     border-top: 1px solid var(--grey-light);
     background-color: var(--grey-lightest);

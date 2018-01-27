@@ -24,10 +24,7 @@ img {
 input,
 textarea {
   font-family: var(--primary-font);
-}
-
-main {
-  margin-left: var(--col-3);
+  outline: 0;
 }
 
 :--headings {
@@ -36,5 +33,6 @@ main {
 }
 
 textarea {
+  display: block;
   resize: none;
 }

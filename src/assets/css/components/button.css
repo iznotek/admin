@@ -6,6 +6,7 @@
   font-size: var(--ms-s);
   text-transform: uppercase;
   letter-spacing: var(--spacing-wide);
+  background-color: transparent;
   cursor: pointer;
 
   &--submit {

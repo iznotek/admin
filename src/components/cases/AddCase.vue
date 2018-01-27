@@ -12,14 +12,20 @@
                 <label class="c-form__labelName" for="headline">Headline *</label>
                 <tool-tip :content="headlineTip" />
               </div>
-              <input class="c-form__input" type="text" id="headline" v-model="headline">
+              <input class="c-form__input" type="text" id="headline" 
+                v-model="headline"
+                @focus="resetTranform" 
+                @blur="checkForTransform">
             </div>
             <div class="c-form__field">
               <div class="c-form__label">
                 <label class="c-form__labelName" for="summary">Summary *</label>
                 <tool-tip :content="summaryTip" />
               </div>
-              <textarea class="c-form__input" id="summary" v-model="summary"></textarea>
+              <textarea class="c-form__input" id="summary" rows="6"
+                v-model="summary"
+                @focus="resetTranform" 
+                @blur="checkForTransform"></textarea>
             </div>
           </fieldset>
           <!-- / Details -->
@@ -31,14 +37,20 @@
                 <label class="c-form__labelName" for="description">Description *</label>
                 <tool-tip :content="descriptionTip" />
               </div>
-              <textarea class="c-form__input" id="description" v-model="description"></textarea>
+              <textarea class="c-form__input" id="description" 
+                v-model="description"
+                @focus="resetTranform" 
+                @blur="checkForTransform"></textarea>
             </div>
             <div class="c-form__field">
               <div class="c-form__label">
                 <label class="c-form__labelName" for="title">Title</label>
                 <tool-tip :content="titleTip" />
               </div>
-              <input class="c-form__input" type="text" id="title" v-model="title">
+              <input class="c-form__input" type="text" id="title" 
+                v-model="title" 
+                @focus="resetTranform" 
+                @blur="checkForTransform">
             </div>
           </fieldset>
           <!-- / SEO -->
@@ -49,11 +61,11 @@
             <!-- Loop through required fields? -->
             <li class="c-checklist__item">
               <h2>Headline</h2>
-              <span v-if="checkRequiredField(this.headline)">&#10003;</span>
+              <span v-if="hasContent(this.headline)">&#10003;</span>
             </li>
             <li class="c-checklist__item">
               <h2>Description</h2>
-              <span v-if="checkRequiredField(this.description)">&#10003;</span>
+              <span v-if="hasContent(this.description)">&#10003;</span>
             </li>
             <!-- / -->
           </ul>
@@ -84,22 +96,33 @@ export default {
     }
   },
   methods: {
-    checkRequiredField (field) {
-      // Possibly add email verification?
-      // Or add other restrictions, like minimum length
+    checkForTransform (e) {
+      const elm = e.currentTarget
+      const label = elm.parentNode.querySelector('label')
+
+      this.hasContent(elm.value)
+        ? label.classList.add('u-isUntransformed')
+        : label.classList.remove('u-isUntransformed')
+    },
+    hasContent (field) {
       if (field.trim() !== '') {
         return true
-      } else {
-        // Show error on page
-        console.log('Empty')
       }
     },
+    resetTranform (e) {
+      const label = e.currentTarget.parentNode.querySelector('label')
+      label.classList.add('u-isUntransformed')
+    },
     submitForm () {
-      if (this.title.trim() === '') {
-        this.title = this.headline
+      // Show errors for required fields
+
+      // Remove errors for required fields afterwards
+
+      if (this.hasContent(this.title)) {
         console.log(this.title)
         // push this.title to Firebase
       } else {
+        this.title = this.headline
         console.log(this.title)
         // push this.title to Firebase
       }
