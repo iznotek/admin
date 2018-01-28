@@ -32,6 +32,10 @@ textarea {
   font-weight: 500;
 }
 
+p {
+  hyphens: auto;
+}
+
 textarea {
   display: block;
   resize: none;

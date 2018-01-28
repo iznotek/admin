@@ -1,9 +1,7 @@
 .c-checklist {
   position: sticky;
   top: calc(var(--bsl) * 3);
-  display: flex;
   align-self: flex-start;
-  flex-direction: column;
   width: var(--col-6);
   padding: var(--bsl);
   margin-top: calc(-var(--bsl) * 3);

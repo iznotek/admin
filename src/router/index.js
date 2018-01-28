@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Dashboard from '@/components/Dashboard'
+import Dashboard from '@/components/pages/Dashboard'
 import Home from '@/components/pages/Home'
 import About from '@/components/pages/About'
+import Contact from '@/components/pages/Contact'
+import SignInUser from '@/components/pages/user/SignInUser'
 import Cases from '@/components/cases/Cases'
 import AddCase from '@/components/cases/AddCase'
+import AuthGuard from './auth-guard'
 
 Vue.use(Router)
 
@@ -16,27 +19,43 @@ export default new Router({
     {
       path: '/',
       name: 'Dashboard',
-      component: Dashboard
+      component: Dashboard,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/sign-in',
+      name: 'Sign in',
+      component: SignInUser
     },
     {
       path: '/pages/home',
       name: 'Home',
-      component: Home
+      component: Home,
+      beforeEnter: AuthGuard
     },
     {
       path: '/pages/about',
       name: 'About',
-      component: About
+      component: About,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/pages/contact',
+      name: 'Contact',
+      component: Contact,
+      beforeEnter: AuthGuard
     },
     {
       path: '/cases',
       name: 'Overview',
-      component: Cases
+      component: Cases,
+      beforeEnter: AuthGuard
     },
     {
       path: '/cases/add',
       name: 'Add case',
-      component: AddCase
+      component: AddCase,
+      beforeEnter: AuthGuard
     }
   ]
 })

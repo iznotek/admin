@@ -9,8 +9,12 @@
   background-color: transparent;
   cursor: pointer;
 
-  &--submit {
+  &--submit:not(:disabled) {
     border-color: var(--secure);
     color: var(--secure);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }

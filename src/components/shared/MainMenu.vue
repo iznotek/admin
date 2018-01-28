@@ -1,8 +1,8 @@
 <template>
-  <header class="c-mainMenu">
+  <header class="c-mainMenu" v-if="userIsAuthenticated">
     <nav class="c-mainMenu__nav">
       <h1 class="c-mainMenu__title">
-        <router-link to="/" exact>Admin</router-link>
+        <router-link to="/" exact>Client</router-link>
       </h1>
       <div class="c-mainMenu__section">
         <h2 class="c-mainMenu__subtitle">Pages</h2>
@@ -21,8 +21,7 @@
         </ul>
       </div>
       <!-- Dropdown component + User indicator -->
-      <!-- <li><router-link v-if="!this.userIsAuthenticated" to="/sign-in" exact>Sign in</router-link></li> -->
-      <!-- <li><button v-if="this.userIsAuthenticated" @click="onLogOut">Log out</button></li> -->
+      <router-link @click="onLogOut" to="/sign-in" exact>Log out</router-link>
     </nav>
   </header>
 </template>
@@ -43,6 +42,15 @@ export default {
           return item
         }
       })
+    },
+    userIsAuthenticated () {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+    }
+  },
+  methods: {
+    onLogOut () {
+      this.$store.dispatch('logOut')
+      console.log(this.userIsAuthenticated)
     }
   }
 }

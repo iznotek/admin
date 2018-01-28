@@ -11,6 +11,7 @@
     border-radius: 50%;
     font-size: var(--ms-xs);
     color: var(--grey-dark);
+    background-color: var(--light);
     cursor: pointer;
 
     &:hover {
