@@ -25,6 +25,12 @@ export default {
   },
   logOut ({commit}) {
     firebase.auth().signOut()
+      .then(() => {
+        console.log('Logged out')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     commit('setUser', null)
   }
 }

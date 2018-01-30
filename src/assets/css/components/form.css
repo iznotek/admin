@@ -1,6 +1,14 @@
 .c-form {
   display: flex;
-  justify-content: space-between;
+  
+  &--checklist {
+    justify-content: space-between;
+  }
+
+  &--user {
+    flex-direction: column;
+    width: var(--col-12);
+  }
 
   &__actions {
     display: flex;
@@ -35,7 +43,6 @@
     caret-color: var(--grey);
 
     &--file {
-
       & input {
         position: absolute;
         top: 0;
@@ -65,8 +72,8 @@
     letter-spacing: var(--spacing-wide);
     text-transform: uppercase;
     color: var(--grey-dark);
-    transform: translate(calc(var(--bsl) / 3), var(--bsl));
-    transition: transform .25s cubic-bezier(.88, 0, 0, 1);
+    transform: translate3d(calc(var(--bsl) / 3), var(--bsl), 0);
+    transition: transform .25s cubic-bezier(.75, 0, 0, 1);
     cursor: text;
 
     &::before {

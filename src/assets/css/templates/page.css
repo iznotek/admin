@@ -1,5 +1,7 @@
 .t-page {
-  margin-left: var(--col-3);
+  &:not(.t-page--signIn) {
+     margin-left: var(--col-3);
+  }
 
   &__content {
     min-height: calc(100vh - (var(--bsl) * 5));
@@ -7,6 +9,27 @@
     margin-top: -1px;
     border-top: 1px solid var(--grey-light);
     background-color: var(--grey-lightest);
+
+    &--grid {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      &::after {
+        content: "";
+        width: var(--col-6);
+      }
+    }
+
+    &--list {
+
+    }
+
+    &--user {
+      display: flex;
+      justify-content: center;
+    }
   }
 
   &__heading {

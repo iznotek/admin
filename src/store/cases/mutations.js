@@ -10,17 +10,20 @@ export default {
       return targetCase.id === payload.id
     })
 
+    if (payload.title) {
+      caseObj.title = payload.title
+    }
+    if (payload.description) {
+      caseObj.description = payload.description
+    }
+    if (payload.thumbnail) {
+      caseObj.thumbnail = payload.thumbnail
+    }
     if (payload.headline) {
       caseObj.headline = payload.headline
     }
-    if (payload.source) {
-      caseObj.source = payload.source
-    }
-    if (payload.sourceUrl) {
-      caseObj.sourceUrl = payload.sourceUrl
-    }
-    if (payload.alt) {
-      caseObj.alt = payload.alt
+    if (payload.summary) {
+      caseObj.summary = payload.summary
     }
   }
 }

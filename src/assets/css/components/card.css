@@ -1,0 +1,15 @@
+.c-card {
+  width: var(--col-6);
+  padding: var(--bsl);
+  margin-bottom: calc(var(--bsl) - 2px);
+  border: 1px solid var(--grey-light);
+  border-radius: var(--radius);
+  background-color: var(--light);
+  box-shadow: 0 0 8px rgba(0, 0, 0, .04);
+
+  &__thumbnail {
+    display: block;
+    height: calc(var(--bsl) * 7);
+    object-fit: cover;
+  }
+}

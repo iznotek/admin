@@ -1,2 +1,3 @@
-@import 'fade.css';
-@import 'untransformed.css';
+@import 'is-untransformed.css';
+@import 'is-visible.css';
+@import 'vue-transitions.css';

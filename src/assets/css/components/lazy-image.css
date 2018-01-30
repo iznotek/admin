@@ -1,0 +1,8 @@
+.lazyImage {
+  background-color: var(--grey-light);
+
+  &__target {
+    opacity: 0;
+    transition: opacity .25s linear;
+  }
+}

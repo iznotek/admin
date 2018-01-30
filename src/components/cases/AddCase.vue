@@ -2,7 +2,7 @@
   <article class="t-page">
     <h1 class="t-page__heading">Add case</h1>
     <div class="t-page__content">
-      <form class="c-form" @submit.prevent="submitForm">
+      <form class="c-form c-form--checklist" @submit.prevent="submitForm">
         <div class="c-form__fieldsets">
           <!-- SEO -->
           <fieldset>

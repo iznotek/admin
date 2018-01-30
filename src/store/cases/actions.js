@@ -3,6 +3,7 @@ import * as firebase from 'firebase'
 export default {
   loadCases ({commit}) {
     commit('setLoading', true)
+    // change to on
     firebase.database().ref('cases').once('value')
       .then((data) => {
         const cases = []
@@ -62,30 +63,42 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+  },
+  updateCase ({commit}, payload) {
+    commit('setLoading', true)
+    const updateObj = {}
+    if (payload.title) {
+      updateObj.title = payload.title
+    }
+    if (payload.description) {
+      updateObj.description = payload.description
+    }
+    if (payload.headline) {
+      updateObj.headline = payload.headline
+    }
+    if (payload.summary) {
+      updateObj.summary = payload.summary
+    }
+    if (payload.thumbnail) {
+      const fileName = payload.thumbnail.name
+      const fileExtension = fileName.slice(fileName.lastIndexOf('.'))
+      return firebase.storage().ref(`cases/${payload.id + fileExtension}`).put(payload.thumbnail)
+        .then((fileData) => {
+          return firebase.database().ref('cases').child(payload.id).update({thumbnailUrl: fileData.metadata.downloadURLs[0]})
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+
+    firebase.database().ref('cases').child(payload.id).update(updateObj)
+      .then(() => {
+        commit('setLoading', false)
+        commit('updateCase', payload)
+      })
+      .catch((error) => {
+        console.log(error)
+        commit('setLoading', false)
+      })
   }
-  // updateCase ({commit}, payload) {
-  //   commit('setLoading', true)
-  //   const updateObj = {}
-  //   if (payload.headline) {
-  //     updateObj.headline = payload.headline
-  //   }
-  //   if (payload.source) {
-  //     updateObj.source = payload.source
-  //   }
-  //   if (payload.sourceUrl) {
-  //     updateObj.sourceUrl = payload.sourceUrl
-  //   }
-  //   if (payload.alt) {
-  //     updateObj.alt = payload.alt
-  //   }
-  //   firebase.database().ref('photoPosts').child(payload.id).update(updateObj)
-  //     .then(() => {
-  //       commit('setLoading', false)
-  //       commit('updatePhotoPost', payload)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //       commit('setLoading', false)
-  //     })
-  // }
 }
