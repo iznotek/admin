@@ -38,9 +38,6 @@ export default {
       return this.$store.getters.loadedCases
     }
   },
-  created () {
-    console.log('created', this.cases)
-  },
   data () {
     return {
       grid: true,

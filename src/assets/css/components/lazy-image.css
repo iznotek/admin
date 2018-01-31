@@ -1,8 +1,29 @@
 .lazyImage {
+  position: relative;
   background-color: var(--grey-light);
 
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    height: var(--bsl);
+    width: var(--bsl);
+    border-radius: 50%;
+    background-color: var(--light);
+    animation: pulse .5s infinite alternate;
+  }
+
   &__target {
+    position: relative;
+    z-index: 1;
     opacity: 0;
     transition: opacity .25s linear;
   }
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(.75); }
+  100% { transform: translate(-50%, -50%) scale(1); }
 }

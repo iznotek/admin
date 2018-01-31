@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { labelTransform } from '@/components/mixins/labelTransform'
+import { transformLabel } from '@/components/mixins/transformLabel'
 
 export default {
   data () {
@@ -75,6 +75,6 @@ export default {
       this.$store.dispatch('signUserIn', {email: this.email, password: this.password})
     }
   },
-  mixins: [labelTransform]
+  mixins: [transformLabel]
 }
 </script>

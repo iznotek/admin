@@ -1,6 +1,6 @@
 import { checkField } from '@/components/mixins/checkField'
 
-export const labelTransform = {
+export const transformLabel = {
   methods: {
     checkLabel (e) {
       const elm = e.currentTarget

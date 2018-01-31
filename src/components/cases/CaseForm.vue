@@ -100,7 +100,7 @@
 <script>
 import Tooltip from '@/components/shared/Tooltip'
 import { handleFile } from '@/components/mixins/handleFile'
-import { labelTransform } from '@/components/mixins/labelTransform'
+import { transformLabel } from '@/components/mixins/transformLabel'
 
 export default {
   components: {
@@ -175,7 +175,7 @@ export default {
       }
     }
   },
-  mixins: [handleFile, labelTransform],
+  mixins: [handleFile, transformLabel],
   mounted () {
     if (this.formType === 'edit') {
       const labels = [].slice.call(this.$el.querySelectorAll('.c-form__labelName'))
