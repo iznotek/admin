@@ -6,7 +6,8 @@ import About from '@/components/pages/About'
 import Contact from '@/components/pages/Contact'
 import SignIn from '@/components/pages/user/SignIn'
 import Cases from '@/components/cases/Cases'
-import AddCase from '@/components/cases/AddCase'
+// import AddCase from '@/components/cases/AddCase'
+import AddCaseTest from '@/components/cases/AddCaseTest'
 import EditCase from '@/components/cases/EditCase'
 import AuthGuard from './auth-guard'
 
@@ -16,6 +17,13 @@ export default new Router({
   mode: 'history',
   linkActiveClass: 'c-mainMenu__link--active',
   linkExactActiveClass: '',
+  scrollBehavior (to, from, savedPosition) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({ x: 0, y: 0 })
+      }, 300) // Set to CSS transition duration > vue-transitions.css
+    })
+  },
   routes: [
     {
       path: '/',
@@ -31,32 +39,38 @@ export default new Router({
     {
       path: '/pages/home',
       name: 'Home',
-      component: Home
+      component: Home,
+      beforeEnter: AuthGuard
     },
     {
       path: '/pages/about',
       name: 'About',
-      component: About
+      component: About,
+      beforeEnter: AuthGuard
     },
     {
       path: '/pages/contact',
       name: 'Contact',
-      component: Contact
+      component: Contact,
+      beforeEnter: AuthGuard
     },
     {
       path: '/cases',
       name: 'Overview',
-      component: Cases
+      component: Cases,
+      beforeEnter: AuthGuard
     },
     {
       path: '/cases/add',
       name: 'Add case',
-      component: AddCase
+      component: AddCaseTest,
+      beforeEnter: AuthGuard
     },
     {
-      path: '/cases/edit/:id',
+      path: '/edit/:id',
       name: 'Edit case',
-      component: EditCase
+      component: EditCase,
+      beforeEnter: AuthGuard
     }
   ]
 })

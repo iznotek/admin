@@ -9,10 +9,10 @@
     </header>
     <div class="t-page__content" :class="{'t-page__content--grid': grid, 't-page__content--list': list}">
       <article class="c-card" v-for="(item, i) in cases" :key="i">
-        <router-link :to="`/cases/edit/${item.id}`" exact>
+        <router-link :to="`/edit/${item.id}`" exact>
           <h1 class="c-card__headline">{{item.headline}}</h1>
+          <lazy-image :classes="'c-card__thumbnail'" :src="item.thumbnailUrl" :alt="item.headline" />
         </router-link>
-        <lazy-image :classes="'c-card__thumbnail'" :src="item.thumbnailUrl" :alt="item.headline" />
       </article>
     </div>
   </article>

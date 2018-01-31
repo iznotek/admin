@@ -99,22 +99,25 @@ export default {
   components: {
     'toolTip': Tooltip
   },
+  created () {
+    console.log(this.caseObj)
+  },
   computed: {
-    currentCase () {
-      return this.$store.getters.loadedCases.filter((item) => {
-        if (item.id === this.$route.params.id) {
-          // Check how to deal with this crap
-          this.id = item.id
-          this.title = item.title
-          this.description = item.description
-          this.thumbnail = !null
-          this.thumbnailUrl = item.thumbnailUrl
-          this.headline = item.headline
-          this.summary = item.summary
-          return item
-        }
-      })
-    },
+    // currentCase () {
+    //   return this.$store.getters.loadedCases.filter((item) => {
+    //     if (item.id === this.$route.params.id) {
+    //       // Check how to deal with this crap
+    //       this.id = item.id
+    //       this.title = item.title
+    //       this.description = item.description
+    //       this.thumbnail = !null
+    //       this.thumbnailUrl = item.thumbnailUrl
+    //       this.headline = item.headline
+    //       this.summary = item.summary
+    //       return item
+    //     }
+    //   })
+    // },
     formIsValid () {
       return this.hasText(this.description) &&
         this.hasText(this.headline) &&
@@ -122,39 +125,37 @@ export default {
         this.isNotNull(this.thumbnail)
     }
   },
-  mounted () {
-    if (this.formType === 'edit') {
-      const labels = [].slice.call(this.$el.querySelectorAll('.c-form__labelName'))
-      labels.map(label => label.classList.add('u-isUntransformed'))
-    }
-  },
-  watch: {
-    currentCase (obj) {
-      if (this.formType === 'edit') {
-        this.id = obj[0].id
-        this.title = obj[0].title
-        this.description = obj[0].description
-        this.thumbnail = !null
-        this.thumbnailUrl = obj[0].thumbnailUrl
-        this.headline = obj[0].headline
-        this.summary = obj[0].summary
-      }
-    }
-  },
   data () {
-    return {
-      title: '',
-      titleTip: '<p>Shows up in the browser tab. Replaced by headline if blank.</p>',
-      description: '',
-      descriptionTip: '<p>Meta description: Describes what the case is about.</p>',
-      thumbnail: null,
-      thumbnailUrl: '',
-      thumbnailTip: '<p>The thumbnail shown on the different pages of the website.</p>',
-      headline: '',
-      headlineTip: '<p>The headline of the case.</p>',
-      summary: '',
-      summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
-      created: ''
+    if (this.formType === 'edit') {
+      return {
+        title: this.caseObj[0].title,
+        titleTip: '<p>Shows up in the browser tab. Replaced by headline if blank.</p>',
+        description: '',
+        descriptionTip: '<p>Meta description: Describes what the case is about.</p>',
+        thumbnail: null,
+        thumbnailUrl: '',
+        thumbnailTip: '<p>The thumbnail shown on the different pages of the website.</p>',
+        headline: '',
+        headlineTip: '<p>The headline of the case.</p>',
+        summary: '',
+        summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
+        created: ''
+      }
+    } else {
+      return {
+        title: '',
+        titleTip: '<p>Shows up in the browser tab. Replaced by headline if blank.</p>',
+        description: '',
+        descriptionTip: '<p>Meta description: Describes what the case is about.</p>',
+        thumbnail: null,
+        thumbnailUrl: '',
+        thumbnailTip: '<p>The thumbnail shown on the different pages of the website.</p>',
+        headline: '',
+        headlineTip: '<p>The headline of the case.</p>',
+        summary: '',
+        summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
+        created: ''
+      }
     }
   },
   methods: {
@@ -196,6 +197,25 @@ export default {
     }
   },
   mixins: [handleFile, labelTransform],
-  props: ['formType']
+  mounted () {
+    if (this.formType === 'edit') {
+      const labels = [].slice.call(this.$el.querySelectorAll('.c-form__labelName'))
+      labels.map(label => label.classList.add('u-isUntransformed'))
+    }
+  },
+  props: ['formType', 'caseObj']
+  // watch: {
+  //   currentCase (obj) {
+  //     if (this.formType === 'edit') {
+  //       this.id = obj[0].id
+  //       this.title = obj[0].title
+  //       this.description = obj[0].description
+  //       this.thumbnail = !null
+  //       this.thumbnailUrl = obj[0].thumbnailUrl
+  //       this.headline = obj[0].headline
+  //       this.summary = obj[0].summary
+  //     }
+  //   }
+  // }
 }
 </script>
