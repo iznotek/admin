@@ -3,24 +3,30 @@ import * as firebase from 'firebase'
 export default {
   loadCases ({commit}) {
     commit('setLoading', true)
-    firebase.database().ref('cases').on('value', (snapshot) => {
-      const cases = []
-      const obj = snapshot.val()
-      for (let key in obj) {
-        cases.push({
-          id: key,
-          title: obj[key].title,
-          description: obj[key].description,
-          thumbnailUrl: obj[key].thumbnailUrl,
-          headline: obj[key].headline,
-          summary: obj[key].summary,
-          created: obj[key].created,
-          creatorId: obj[key].creatorId
-        })
-      }
-      commit('setLoadedCases', cases)
-      commit('setLoading', false)
-    })
+    firebase.database().ref('cases').once('value')
+      .then((data) => {
+        console.log('From actions')
+        const cases = []
+        const obj = data.val()
+        for (let key in obj) {
+          cases.push({
+            id: key,
+            title: obj[key].title,
+            description: obj[key].description,
+            thumbnailUrl: obj[key].thumbnailUrl,
+            headline: obj[key].headline,
+            summary: obj[key].summary,
+            created: obj[key].created,
+            creatorId: obj[key].creatorId
+          })
+        }
+        commit('setLoadedCases', cases)
+        commit('setLoading', false)
+      })
+      .catch((error) => {
+        console.log(error)
+        commit('setLoading', false)
+      })
   },
   addCase ({commit, getters}, payload) {
     const cases = {

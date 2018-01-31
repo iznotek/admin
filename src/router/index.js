@@ -6,8 +6,7 @@ import About from '@/components/pages/About'
 import Contact from '@/components/pages/Contact'
 import SignIn from '@/components/pages/user/SignIn'
 import Cases from '@/components/cases/Cases'
-// import AddCase from '@/components/cases/AddCase'
-import AddCaseTest from '@/components/cases/AddCaseTest'
+import AddCase from '@/components/cases/AddCase'
 import EditCase from '@/components/cases/EditCase'
 import AuthGuard from './auth-guard'
 
@@ -39,38 +38,32 @@ export default new Router({
     {
       path: '/pages/home',
       name: 'Home',
-      component: Home,
-      beforeEnter: AuthGuard
+      component: Home
     },
     {
       path: '/pages/about',
       name: 'About',
-      component: About,
-      beforeEnter: AuthGuard
+      component: About
     },
     {
       path: '/pages/contact',
       name: 'Contact',
-      component: Contact,
-      beforeEnter: AuthGuard
+      component: Contact
     },
     {
       path: '/cases',
-      name: 'Overview',
-      component: Cases,
-      beforeEnter: AuthGuard
+      name: 'Cases',
+      component: Cases
     },
     {
       path: '/cases/add',
       name: 'Add case',
-      component: AddCaseTest,
-      beforeEnter: AuthGuard
+      component: AddCase
     },
     {
       path: '/edit/:id',
       name: 'Edit case',
-      component: EditCase,
-      beforeEnter: AuthGuard
+      component: EditCase
     }
   ]
 })

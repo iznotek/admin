@@ -16,7 +16,7 @@
     color: var(--light);
 
     &--active {
-      font-weight: 500;
+      font-weight: 300;
     }
   }
 
@@ -41,5 +41,6 @@
   &__title {
     padding-right: var(--bsl);
     padding-left: var(--bsl);
+    color: var(--grey-dark);
   }
 }

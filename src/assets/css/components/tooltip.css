@@ -27,10 +27,11 @@
     left: calc(-var(--bsl) / 3);
     z-index: 1;
     width: var(--col-5);
-    padding: calc(var(--bsl) / 2);
+    padding: calc(var(--bsl) / 3) calc(var(--bsl) / 2);
     border-radius: var(--radius);
-    background-color: var(--grey);
-    color: var(--light);
+    background-color: var(--dark);
+    color: var(--grey-light);
+    box-shadow: var(--shadow);
     opacity: 0;
     transition: opacity .25s linear;
     pointer-events: none;

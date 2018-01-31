@@ -55,4 +55,7 @@
   --col-22: calc((100vw / 24) * 22);
   --col-23: calc((100vw / 24) * 23);
   --col-24: calc((100vw / 24) * 24);
+
+  /* Shadow */
+  --shadow: 0 0 8px rgba(0, 0, 0, .04);
 }

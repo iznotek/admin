@@ -61,6 +61,9 @@ export default {
         this.loadImg(url)
           .then(() => this.setSource(target, url))
           .then(() => this.addVisibleClass(target))
+          .catch((err) => {
+            console.log('Image error: ', err)
+          })
       }
     },
 

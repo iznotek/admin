@@ -5,11 +5,24 @@
   border: 1px solid var(--grey-light);
   border-radius: var(--radius);
   background-color: var(--light);
-  box-shadow: 0 0 8px rgba(0, 0, 0, .04);
+  box-shadow: var(--shadow);
+
+  &__date {
+    font-size: var(--ms-s);
+    color: var(--grey);
+    letter-spacing: var(--spacing-wide);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: calc(var(--bsl) / 3);
+  }
 
   &__thumbnail {
     display: block;
     height: calc(var(--bsl) * 7);
+    margin-bottom: calc(var(--bsl) / 2);
     object-fit: cover;
   }
 }

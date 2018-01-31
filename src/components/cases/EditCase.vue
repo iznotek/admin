@@ -1,6 +1,8 @@
 <template>
   <article class="t-page">
-    <h1 class="t-page__heading">Edit case</h1>
+    <header class="t-page__header">
+      <h1 class="t-page__heading">{{this.$route.name}}</h1>
+    </header>
     <div class="t-page__content">
       <case-form formType="edit" :caseObj="currentCase"/>
     </div>
@@ -32,6 +34,7 @@ export default {
       this.thumbnailUrl = obj[0].thumbnailUrl
       this.headline = obj[0].headline
       this.summary = obj[0].summary
+      this.created = obj[0].created
     }
   }
 }

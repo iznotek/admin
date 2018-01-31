@@ -1,9 +1,9 @@
 <template>
   <header class="c-mainMenu">
     <nav class="c-mainMenu__nav">
-      <h1 class="c-mainMenu__title">
-        <router-link to="/" exact>Client</router-link>
-      </h1>
+      <router-link to="/" exact>
+        <h1 class="c-mainMenu__title">Admin</h1>
+      </router-link>
       <div class="c-mainMenu__section">
         <h2 class="c-mainMenu__subtitle">Pages</h2>
         <ul>

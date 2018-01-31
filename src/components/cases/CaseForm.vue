@@ -1,5 +1,6 @@
 <template>
-  <form class="c-form c-form--checklist" @submit.prevent="submitForm">
+  <form class="c-form c-form--checklist"> 
+    <!-- @submit.prevent="submitForm" -->
     <div class="c-form__fieldsets">
       <!-- SEO -->
       <fieldset>
@@ -63,28 +64,34 @@
       <!-- / Details -->
     </div>
     <aside class="c-checklist">
-      <h1>Checklist</h1>
+      <header class="c-checklist__header">
+        <h1>Case</h1>
+        <small>Show progress</small>
+      </header>
       <ul class="c-checklist__items">
         <li class="c-checklist__item">
           <h2>Description</h2>
-          <span v-if="hasText(this.description)">👌</span>
+          <span v-if="hasText(this.description)">&#10003;</span>
         </li>
         <li class="c-checklist__item">
           <h2>Thumbnail</h2>
-          <span v-if="isNotNull(this.thumbnail)">👌</span>
+          <span v-if="isNotNull(this.thumbnail)">&#10003;</span>
         </li>
         <li class="c-checklist__item">
           <h2>Headline</h2>
-          <span v-if="hasText(this.headline)">👌</span>
+          <span v-if="hasText(this.headline)">&#10003;</span>
         </li>
         <li class="c-checklist__item">
           <h2>Summary</h2>
-          <span v-if="hasText(this.summary)">👌</span>
+          <span v-if="hasText(this.summary)">&#10003;</span>
         </li>
       </ul>
       <div class="c-form__actions">
-        <input class="c-button c-button--save" type="submit" value="Save">
-        <input class="c-button c-button--submit" type="submit" value="Publish" :disabled="!formIsValid">
+        <!-- <input class="c-link c-link--delete" type="submit" value="Delete"> -->
+        <!-- <input class="c-link c-link--save" type="submit" value="Save"> -->
+        <input class="c-button c-button--submit" type="submit" value="Publish" data-action="publish"
+          :disabled="!formIsValid"
+          @click.prevent="submitForm">
       </div>
     </aside>
   </form>
@@ -99,25 +106,7 @@ export default {
   components: {
     'toolTip': Tooltip
   },
-  created () {
-    console.log(this.caseObj)
-  },
   computed: {
-    // currentCase () {
-    //   return this.$store.getters.loadedCases.filter((item) => {
-    //     if (item.id === this.$route.params.id) {
-    //       // Check how to deal with this crap
-    //       this.id = item.id
-    //       this.title = item.title
-    //       this.description = item.description
-    //       this.thumbnail = !null
-    //       this.thumbnailUrl = item.thumbnailUrl
-    //       this.headline = item.headline
-    //       this.summary = item.summary
-    //       return item
-    //     }
-    //   })
-    // },
     formIsValid () {
       return this.hasText(this.description) &&
         this.hasText(this.headline) &&
@@ -126,44 +115,25 @@ export default {
     }
   },
   data () {
-    if (this.formType === 'edit') {
-      return {
-        title: this.caseObj[0].title,
-        titleTip: '<p>Shows up in the browser tab. Replaced by headline if blank.</p>',
-        description: '',
-        descriptionTip: '<p>Meta description: Describes what the case is about.</p>',
-        thumbnail: null,
-        thumbnailUrl: '',
-        thumbnailTip: '<p>The thumbnail shown on the different pages of the website.</p>',
-        headline: '',
-        headlineTip: '<p>The headline of the case.</p>',
-        summary: '',
-        summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
-        created: ''
-      }
-    } else {
-      return {
-        title: '',
-        titleTip: '<p>Shows up in the browser tab. Replaced by headline if blank.</p>',
-        description: '',
-        descriptionTip: '<p>Meta description: Describes what the case is about.</p>',
-        thumbnail: null,
-        thumbnailUrl: '',
-        thumbnailTip: '<p>The thumbnail shown on the different pages of the website.</p>',
-        headline: '',
-        headlineTip: '<p>The headline of the case.</p>',
-        summary: '',
-        summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
-        created: ''
-      }
+    // Fix this crap below if reload Edit page. Promise on action?
+    return {
+      id: this.formType === 'edit' ? this.caseObj[0].id : '',
+      title: this.caseObj[0].title,
+      titleTip: '<p>Shows up in the browser tab. Replaced by headline if blank.</p>',
+      description: this.caseObj[0].description,
+      descriptionTip: '<p>Meta description: Describes what the case is about.</p>',
+      thumbnail: this.formType === 'edit' ? !null : null,
+      thumbnailUrl: this.caseObj[0].thumbnailUrl,
+      thumbnailTip: '<p>The thumbnail shown on the different pages of the website.</p>',
+      headline: this.caseObj[0].headline,
+      headlineTip: '<p>The headline of the case.</p>',
+      summary: this.caseObj[0].summary,
+      summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
+      created: this.caseObj[0].created
     }
   },
   methods: {
-    submitForm () {
-      if (!this.formIsValid) {
-        return
-      }
-
+    publishCase () {
       if (this.formType === 'edit') {
         const caseData = {
           id: this.id,
@@ -194,6 +164,15 @@ export default {
         this.$store.dispatch('addCase', caseData)
         this.$router.push('/cases')
       }
+    },
+    submitForm (e) {
+      if (!this.formIsValid) {
+        return
+      }
+
+      if (e.target.dataset.action === 'publish') {
+        this.publishCase()
+      }
     }
   },
   mixins: [handleFile, labelTransform],
@@ -204,18 +183,5 @@ export default {
     }
   },
   props: ['formType', 'caseObj']
-  // watch: {
-  //   currentCase (obj) {
-  //     if (this.formType === 'edit') {
-  //       this.id = obj[0].id
-  //       this.title = obj[0].title
-  //       this.description = obj[0].description
-  //       this.thumbnail = !null
-  //       this.thumbnailUrl = obj[0].thumbnailUrl
-  //       this.headline = obj[0].headline
-  //       this.summary = obj[0].summary
-  //     }
-  //   }
-  // }
 }
 </script>

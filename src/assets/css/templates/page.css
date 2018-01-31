@@ -32,8 +32,13 @@
     }
   }
 
-  &__heading {
+  &__header {
+    display: flex;
+    justify-content: space-between;
     padding: calc(var(--bsl) * 2) var(--col-1);
+  }
+
+  &__heading {
     font-size: var(--ms-m);
     font-weight: 300;
   }

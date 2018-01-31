@@ -1,7 +1,7 @@
 <template>
   <article class="t-page">
-    <header>
-        <h1 class="t-page__heading">Cases <small>({{cases.length}})</small></h1>
+    <header class="t-page__header">
+        <h1 class="t-page__heading">{{this.$route.name}} <small>({{cases.length}})</small></h1>
         <div>
           <button class="c-toggleBtn c-toggleBtn--active" @click="displayAs('grid', $event)">Grid</button>
           <button class="c-toggleBtn" @click="displayAs('list', $event)">List</button>
@@ -9,16 +9,24 @@
     </header>
     <div class="t-page__content" :class="{'t-page__content--grid': grid, 't-page__content--list': list}">
       <article class="c-card" v-for="(item, i) in cases" :key="i">
+        <header class="c-card__header">
+          <h1>
+            <router-link :to="`/edit/${item.id}`" exact>{{item.headline}}</router-link>
+          </h1>
+          <time class="c-card__date" :datetime="item.created">{{formatDate(item.created)}}</time>
+          <!-- Published? ^^^ -->
+        </header>
         <router-link :to="`/edit/${item.id}`" exact>
-          <h1 class="c-card__headline">{{item.headline}}</h1>
           <lazy-image :classes="'c-card__thumbnail'" :src="item.thumbnailUrl" :alt="item.headline" />
         </router-link>
+        <router-link class="c-button" :to="`/edit/${item.id}`" exact>Edit</router-link>
       </article>
     </div>
   </article>
 </template>
 
 <script>
+import { formatDate } from '@/components/mixins/formatDate'
 import LazyImage from '@/components/shared/LazyImage'
 
 export default {
@@ -29,6 +37,9 @@ export default {
     cases () {
       return this.$store.getters.loadedCases
     }
+  },
+  created () {
+    console.log('created', this.cases)
   },
   data () {
     return {
@@ -52,6 +63,7 @@ export default {
         this.list = true
       }
     }
-  }
+  },
+  mixins: [formatDate]
 }
 </script>

@@ -1,9 +1,11 @@
 .c-button {
-  padding: calc(var(--bsl) / 3) var(--bsl);
+  display: inline-block;
+  padding: calc(var(--bsl) / 5) var(--bsl);
   margin-bottom: -2px;
   border: 1px solid var(--grey);
   border-radius: var(--bsl);
   font-size: var(--ms-s);
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: var(--spacing-wide);
   background-color: transparent;

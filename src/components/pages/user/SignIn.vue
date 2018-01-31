@@ -1,6 +1,8 @@
 <template>
   <article class="t-page t-page--signIn">
-    <h1 class="t-page__heading">Sign in</h1>
+    <header class="t-page__header">
+      <h1 class="t-page__heading">{{this.$route.name}}</h1>
+    </header>
     <div class="t-page__content t-page__content--user">
       <div v-if="loading">Loading...</div>
       <div v-if="error">{{error.message}} Add Alert.vue component</div>
