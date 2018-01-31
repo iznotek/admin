@@ -19,35 +19,13 @@ export default {
           creatorId: obj[key].creatorId
         })
       }
-      console.log('Loaded cases: ', cases)
-      console.log('Re-render stuff based on result above')
-      console.log('While adding a new case, it adds an extra case when firebase saved the image. Look into Lazy Image?')
+      // console.log('Loaded cases: ', cases)
+      // console.log('Re-render stuff based on result above')
+      console.log('Update view on cases object change')
+      // console.log('While adding a new case, it adds an extra case when firebase saved the image. Look into Lazy Image?')
       commit('setLoadedCases', cases)
       commit('setLoading', false)
     })
-    // firebase.database().ref('cases').once('value')
-    //   .then((data) => {
-    //     const cases = []
-    //     const obj = data.val()
-    //     for (let key in obj) {
-    //       cases.push({
-    //         id: key,
-    //         title: obj[key].title,
-    //         description: obj[key].description,
-    //         thumbnailUrl: obj[key].thumbnailUrl,
-    //         headline: obj[key].headline,
-    //         summary: obj[key].summary,
-    //         created: obj[key].created,
-    //         creatorId: obj[key].creatorId
-    //       })
-    //     }
-    //     commit('setLoadedCases', cases)
-    //     commit('setLoading', false)
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //     commit('setLoading', false)
-    //   })
   },
   addCase ({commit, getters}, payload) {
     const cases = {
@@ -84,6 +62,9 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+  },
+  deleteCase ({commit}, payload) {
+    return firebase.database().ref('cases').child(payload).remove()
   },
   updateCase ({commit}, payload) {
     commit('setLoading', true)

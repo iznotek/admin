@@ -87,8 +87,11 @@
         </li>
       </ul>
       <div class="c-form__actions">
-        <!-- <input class="c-link c-link--delete" type="submit" value="Delete"> -->
-        <!-- <input class="c-link c-link--save" type="submit" value="Save"> -->
+        <input class="c-link c-link--delete" type="submit" value="Delete" data-action="delete"
+          v-if="formType === 'edit'"
+          @click.prevent="submitForm">
+        <input class="c-link c-link--save" type="submit" value="Save" data-action="save"
+          @click.prevent="submitForm">
         <input class="c-button c-button--submit" type="submit" value="Publish" data-action="publish"
           :disabled="!formIsValid"
           @click.prevent="submitForm">
@@ -107,6 +110,23 @@ export default {
     'toolTip': Tooltip
   },
   computed: {
+    currentCase () {
+      if (this.formType === 'edit') {
+        return this.$store.getters.loadedCases.filter((item) => {
+          if (item.id === this.$route.params.id) {
+            console.log('Set fields (navigation)')
+            this.id = item.id
+            this.title = item.title
+            this.description = item.description
+            this.thumbnail = !null
+            this.thumbnailUrl = item.thumbnailUrl
+            this.headline = item.headline
+            this.summary = item.summary
+            this.created = item.created
+          }
+        })
+      }
+    },
     formIsValid () {
       return this.hasText(this.description) &&
         this.hasText(this.headline) &&
@@ -114,22 +134,26 @@ export default {
         this.isNotNull(this.thumbnail)
     }
   },
+  watch: {
+    currentCase () {
+      console.log('Update fields (page load)')
+    }
+  },
   data () {
-    // Fix this crap below if reload Edit page. Promise on action?
     return {
-      id: this.formType === 'edit' ? this.caseObj[0].id : '',
-      title: this.caseObj[0].title,
+      id: '',
+      title: '',
       titleTip: '<p>Shows up in the browser tab. Replaced by headline if blank.</p>',
-      description: this.caseObj[0].description,
+      description: '',
       descriptionTip: '<p>Meta description: Describes what the case is about.</p>',
-      thumbnail: this.formType === 'edit' ? !null : null,
-      thumbnailUrl: this.caseObj[0].thumbnailUrl,
+      thumbnail: null,
+      thumbnailUrl: '',
       thumbnailTip: '<p>The thumbnail shown on the different pages of the website.</p>',
-      headline: this.caseObj[0].headline,
+      headline: '',
       headlineTip: '<p>The headline of the case.</p>',
-      summary: this.caseObj[0].summary,
+      summary: '',
       summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
-      created: this.caseObj[0].created
+      created: ''
     }
   },
   methods: {
@@ -165,13 +189,30 @@ export default {
         this.$router.push('/cases')
       }
     },
+    deleteCase () {
+      this.$store.dispatch('deleteCase', this.id)
+      this.$router.push('/cases')
+    },
+    requestDeletion () {
+      // Alert modal method
+      this.deleteCase()
+    },
+    saveCase () {
+      console.log('Saving case...')
+    },
     submitForm (e) {
+      if (e.target.dataset.action === 'delete') {
+        this.requestDeletion()
+      }
+
       if (!this.formIsValid) {
         return
       }
 
       if (e.target.dataset.action === 'publish') {
         this.publishCase()
+      } else if (e.target.dataset.action === 'save') {
+        this.saveCase()
       }
     }
   },
@@ -182,6 +223,6 @@ export default {
       labels.map(label => label.classList.add('u-isUntransformed'))
     }
   },
-  props: ['formType', 'caseObj']
+  props: ['formType']
 }
 </script>
