@@ -15,6 +15,7 @@ export default {
           thumbnailUrl: obj[key].thumbnailUrl,
           headline: obj[key].headline,
           summary: obj[key].summary,
+          content: obj[key].content,
           created: obj[key].created,
           creatorId: obj[key].creatorId
         })
@@ -36,6 +37,7 @@ export default {
       created: payload.created.toISOString(),
       creatorId: getters.user.id
     }
+    let contentUrls = []
     let thumbnailUrl
     let key
     firebase.database().ref('cases').push(cases)
@@ -53,14 +55,47 @@ export default {
         return firebase.database().ref('cases').child(key).update({thumbnailUrl: thumbnailUrl})
       })
       .then(() => {
-        commit('addCase', {
-          ...cases,
-          thumbnailUrl: thumbnailUrl,
-          id: key
-        })
-      })
-      .catch((error) => {
-        console.log(error)
+        const content = payload.content
+        const arr = []
+
+        const putStorageItem = (imageFile) => {
+          return new Promise((resolve, reject) => {
+            const storageRef = firebase.storage().ref(`cases/content/${key + imageFile.name}`)
+            const task = storageRef.put(imageFile)
+
+            task.on('state_changed', function (snapshot) {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              console.log('Upload is ' + progress + '% done')
+            }, function (error) {
+              console.log(error)
+            }, function () {
+              const downloadURL = task.snapshot.downloadURL
+              console.log('downloadURL: ', downloadURL)
+              arr.push(downloadURL)
+              resolve(downloadURL)
+            })
+          })
+        }
+
+        Promise.all(content.map(
+          item => putStorageItem(item))
+        )
+          .then((arr) => {
+            console.log('filesArray: ', arr)
+            return firebase.database().ref('cases').child(key).update({contentUrls: arr})
+          })
+          .then(() => {
+            commit('addCase', {
+              ...cases,
+              // contentUrls: contentUrls,
+              contentUrls: ['sfddsfd', 'dsfsdf', contentUrls],
+              // thumbnailUrl: thumbnailUrl,
+              id: key
+            })
+          })
+          .catch((error) => {
+            console.log(`Some failed: `, error.message)
+          })
       })
   },
   deleteCase ({commit}, payload) {

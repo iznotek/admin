@@ -11,7 +11,6 @@ export const handleFile = {
 
       if (type === 'thumbnail') {
         fileReader.addEventListener('load', () => {
-          console.log('thumbnail changed')
           e.target.closest('.c-form__field').querySelector('label').classList.add('u-isUntransformed')
           this.thumbnailUrl = fileReader.result
         })
@@ -24,6 +23,8 @@ export const handleFile = {
         fileReader.addEventListener('load', () => {
           const contentImageUrl = fileReader.result
           this.contentUrls.splice(i, 1, contentImageUrl)
+          e.target.parentNode.querySelector('.c-form__thumbnail').src = contentImageUrl
+          console.log('Check order of putting files in. If putting in no.3 before no.2, no.2 will not be included in the array')
           console.log('contentUrls: ', this.contentUrls)
         })
         fileReader.readAsDataURL(files[0])

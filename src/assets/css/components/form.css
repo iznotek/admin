@@ -43,6 +43,10 @@
     caret-color: var(--grey);
 
     &--file {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
       & input {
         position: absolute;
         top: 0;
@@ -92,6 +96,17 @@
       &::before {
         opacity: 1;
       }
+    }
+  }
+
+  &__thumbnail {
+    min-height: var(--bsl);
+    border-radius: var(--radius);
+
+    &--s {
+      height: var(--bsl);
+      width: var(--bsl);
+      object-fit: cover;
     }
   }
 

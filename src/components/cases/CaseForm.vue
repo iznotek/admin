@@ -37,7 +37,7 @@
           </div>
           <div class="c-form__input c-form__input--file">
             <input type="file" id="thumbnail" @change="handleFile($event, 'thumbnail')">
-            <img :src="thumbnailUrl">
+            <img class="c-form__thumbnail" :src="thumbnailUrl">
           </div>
         </div>
         <div class="c-form__field">
@@ -62,29 +62,25 @@
         </div>
       </fieldset>
       <!-- / Details -->
-      <!-- Details -->
+      <!-- Content -->
       <fieldset>
         <legend>Content</legend>
-        <button @click.prevent="addContentField('image')">Add image</button>
-        <ul>
-          <li class="c-form__input" v-for="(row, i) in contentRows" :key="i">
-            {{row.file.name}}
-            <input type="file" @change="handleContentFile($event, row, i)">
-            <button v-on:click.prevent="removeElement(i)">Remove</button>
-          </li>
-        </ul>
-        <!-- <div class="c-form__field">
-          <div class="c-form__label">
-            <label class="c-form__labelName" for="image">Image</label>
-            <tool-tip :content="imageTip" />
-          </div>
-          <div class="c-form__input c-form__input--file">
-            <input type="file" id="image" @change="handleFile">
-            <img :src="imageUrl">
-          </div>
-        </div> -->
+        <div class="c-form__field">
+          <button @click.prevent="addContentField('image')">Add image</button>
+          <!-- <tool-tip :content="contentTip" /> -->
+          <ul>
+            <li class="c-form__input c-form__input--file" v-for="(row, i) in contentRows" :key="i">
+              <label class="c-form__label" :for="`contentFile--${i}`">
+                <img class="c-form__thumbnail c-form__thumbnail--s">
+                <span>{{row.file.name}}</span>
+              </label>
+              <input type="file" :id="`contentFile--${i}`" @change="handleContentFile($event, row, i)">
+              <button class="" v-on:click.prevent="removeElement(i)">Remove</button>
+            </li>
+          </ul>
+        </div>
       </fieldset>
-      <!-- / Details -->
+      <!-- / Content -->
     </div>
     <aside class="c-checklist">
       <header class="c-checklist__header">
@@ -174,6 +170,7 @@ export default {
       content: [],
       contentUrls: [],
       contentRows: [],
+      contentTip: '<p>The content you want placed in the case.</p>',
       created: ''
     }
   },
@@ -182,7 +179,7 @@ export default {
       document.createElement('li')
       this.contentRows.push({
         file: {
-          name: 'Choose File'
+          name: `Select ${type}`
         }
       })
     },
@@ -207,7 +204,8 @@ export default {
           title: this.title,
           description: this.description,
           headline: this.headline,
-          summary: this.summary
+          summary: this.summary,
+          content: this.content
           // Published flag?
         }
 
@@ -224,6 +222,7 @@ export default {
           thumbnail: this.thumbnail,
           headline: this.headline,
           summary: this.summary,
+          content: this.content,
           created: new Date()
           // Published flag?
         }
@@ -248,14 +247,16 @@ export default {
         this.requestDeletion()
       }
 
+      if (e.target.dataset.action === 'save') {
+        this.saveCase()
+      }
+
       if (!this.formIsValid) {
         return
       }
 
       if (e.target.dataset.action === 'publish') {
         this.publishCase()
-      } else if (e.target.dataset.action === 'save') {
-        this.saveCase()
       }
     }
   },
