@@ -36,7 +36,7 @@
             <tool-tip :content="thumbnailTip" />
           </div>
           <div class="c-form__input c-form__input--file">
-            <input type="file" id="thumbnail" @change="handleFile">
+            <input type="file" id="thumbnail" @change="handleFile($event, 'thumbnail')">
             <img :src="thumbnailUrl">
           </div>
         </div>
@@ -60,6 +60,29 @@
             @focus="resetLabel" 
             @blur="checkLabel"></textarea>
         </div>
+      </fieldset>
+      <!-- / Details -->
+      <!-- Details -->
+      <fieldset>
+        <legend>Content</legend>
+        <button @click.prevent="addContentField('image')">Add image</button>
+        <ul>
+          <li class="c-form__input" v-for="(row, i) in contentRows" :key="i">
+            {{row.file.name}}
+            <input type="file" @change="handleContentFile($event, row, i)">
+            <button v-on:click.prevent="removeElement(i)">Remove</button>
+          </li>
+        </ul>
+        <!-- <div class="c-form__field">
+          <div class="c-form__label">
+            <label class="c-form__labelName" for="image">Image</label>
+            <tool-tip :content="imageTip" />
+          </div>
+          <div class="c-form__input c-form__input--file">
+            <input type="file" id="image" @change="handleFile">
+            <img :src="imageUrl">
+          </div>
+        </div> -->
       </fieldset>
       <!-- / Details -->
     </div>
@@ -134,11 +157,6 @@ export default {
         this.isNotNull(this.thumbnail)
     }
   },
-  watch: {
-    currentCase () {
-      console.log('Update fields (page load)')
-    }
-  },
   data () {
     return {
       id: '',
@@ -153,10 +171,35 @@ export default {
       headlineTip: '<p>The headline of the case.</p>',
       summary: '',
       summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
+      content: [],
+      contentUrls: [],
+      contentRows: [],
       created: ''
     }
   },
   methods: {
+    addContentField (type) {
+      document.createElement('li')
+      this.contentRows.push({
+        file: {
+          name: 'Choose File'
+        }
+      })
+    },
+    removeElement (i) {
+      this.contentUrls.splice(i, 1)
+      this.content.splice(i, 1)
+      this.contentRows.splice(i, 1)
+      console.log('ContentUrls after removal: ', this.contentUrls)
+      console.log('Content after removal: ', this.content)
+    },
+    handleContentFile (e, row, i) {
+      const file = e.target.files[0]
+      row.file = file
+
+      this.handleFile(e, 'contentImage', i)
+    },
+
     publishCase () {
       if (this.formType === 'edit') {
         const caseData = {
@@ -223,6 +266,11 @@ export default {
       labels.map(label => label.classList.add('u-isUntransformed'))
     }
   },
-  props: ['formType']
+  props: ['formType'],
+  watch: {
+    currentCase () {
+      console.log('Update fields (page load)')
+    }
+  }
 }
 </script>
