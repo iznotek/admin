@@ -14,7 +14,16 @@
     display: flex;
     justify-content: flex-end;
 
-    & .c-button--submit {
+    &--content {
+      margin-top: calc(var(--bsl) / 3);
+      margin-bottom: calc(var(--bsl) / 3);
+      padding: calc(var(--bsl) / 3);
+      border: 1px solid var(--grey-light);
+      border-radius: var(--bsl);
+      background-color: var(--light);
+    }
+
+    & .c-button {
       margin-left: calc(var(--bsl) / 2);
     }
   }
@@ -46,6 +55,10 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
+
+      &:not(:last-child) {
+        margin-bottom: calc(var(--bsl) / 2 - 2px);
+      }
 
       & input {
         position: absolute;

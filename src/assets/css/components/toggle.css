@@ -1,0 +1,19 @@
+.c-toggle {
+  display: flex;
+  border: 1px solid var(--grey-light);
+  border-radius: var(--radius);
+
+  &__button {
+    padding-right: calc(var(--bsl) / 2);
+    padding-left: calc(var(--bsl) / 2);
+
+    &--active {
+      background-color: var(--grey-lightest);
+    }
+  }
+
+  &__divider {
+    width: 1px;
+    background-color: var(--grey-light);
+  }
+}

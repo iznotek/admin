@@ -7,6 +7,12 @@
   background-color: var(--light);
   box-shadow: var(--shadow);
 
+  &__actions {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
   &__date {
     font-size: var(--ms-s);
     color: var(--grey);

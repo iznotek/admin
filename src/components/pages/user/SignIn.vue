@@ -30,8 +30,8 @@
           </fieldset>
         </div>
         <div class="c-form__actions">
-          <router-link to="/" exact>Forgot password?</router-link>
-          <input class="c-button c-button--submit" :class="{'c-button--loading': loading}" type="submit" value="Sign in" :disabled="!formIsValid">
+          <router-link class="c-button" to="/" exact>Forgot password?</router-link>
+          <input class="c-button c-button--l c-button--submit" :class="{'c-button--loading': loading}" type="submit" value="Sign in" :disabled="!formIsValid">
         </div>
       </form>
     </div>

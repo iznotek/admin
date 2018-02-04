@@ -30,8 +30,4 @@
   &__items {
     margin-bottom: var(--bsl);
   }
-
-  & .c-button {
-    align-self: flex-end;
-  }
 }

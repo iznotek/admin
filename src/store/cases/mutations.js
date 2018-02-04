@@ -1,10 +1,9 @@
 export default {
   setLoadedCases (state, payload) {
-    console.log('setLoadedCases: ', payload)
     state.loadedCases = payload
   },
   addCase (state, payload) {
-    console.log('Addcase mutations: ', payload)
+    console.log('mutations: ', payload)
     // state.loadedCases.splice(0, 1, payload)
     state.loadedCases.push(payload)
     // state.loadedCases.pop()
@@ -30,8 +29,8 @@ export default {
     if (payload.summary) {
       caseObj.summary = payload.summary
     }
-    if (payload.contentUrls) {
-      caseObj.contentUrls = payload.contentUrls
+    if (payload.content) {
+      caseObj.content = payload.content
     }
   }
 }

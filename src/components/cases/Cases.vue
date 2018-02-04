@@ -2,9 +2,10 @@
   <article class="t-page">
     <header class="t-page__header">
         <h1 class="t-page__heading">{{this.$route.name}} <small>({{cases.length}})</small></h1>
-        <div>
-          <button class="c-toggleBtn c-toggleBtn--active" @click="displayAs('grid', $event)">Grid</button>
-          <button class="c-toggleBtn" @click="displayAs('list', $event)">List</button>
+        <div class="c-toggle">
+          <button class="c-toggle__button c-toggle__button--active" @click="displayAs('grid', $event)">Grid</button>
+          <span class="c-toggle__divider"></span>
+          <button class="c-toggle__button" @click="displayAs('list', $event)">List</button>
         </div>
     </header>
     <div class="t-page__content" :class="{'t-page__content--grid': grid, 't-page__content--list': list}">
@@ -19,7 +20,10 @@
         <router-link :to="`/edit/${item.id}`" exact>
           <lazy-image :classes="'c-card__thumbnail'" :src="item.thumbnailUrl" :alt="item.headline" />
         </router-link>
-        <router-link class="c-button" :to="`/edit/${item.id}`" exact>Edit</router-link>
+        <div class="c-card__actions">
+          <router-link class="c-button c-button--l" :to="`/edit/${item.id}`" exact>Edit</router-link>
+          <button class="c-button c-button--delete">Delete</button>
+        </div>
       </article>
     </div>
   </article>
@@ -47,7 +51,7 @@ export default {
   methods: {
     displayAs (type, e) {
       const btn = e.currentTarget
-      const activeClass = 'c-toggleBtn--active'
+      const activeClass = 'c-toggle__button--active'
 
       btn.parentNode.querySelector(`.${activeClass}`).classList.remove(`${activeClass}`)
       btn.classList.add(`${activeClass}`)

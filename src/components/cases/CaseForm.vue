@@ -26,7 +26,6 @@
             @blur="checkLabel"></textarea>
         </div>
       </fieldset>
-      <!-- / SEO -->
       <!-- Details -->
       <fieldset>
         <legend>Details</legend>
@@ -61,26 +60,28 @@
             @blur="checkLabel"></textarea>
         </div>
       </fieldset>
-      <!-- / Details -->
       <!-- Content -->
       <fieldset>
         <legend>Content</legend>
         <div class="c-form__field">
-          <button @click.prevent="addContentField('image')">Add image</button>
-          <!-- <tool-tip :content="contentTip" /> -->
+          <div class="c-form__actions c-form__actions--content">
+            <button class="c-button c-button--l" @click.prevent="addContentField">Quote</button>
+            <button class="c-button c-button--l" @click.prevent="addContentField">Video</button>
+            <button class="c-button c-button--l" @click.prevent="addContentField">Image</button>
+          </div>
           <ul>
             <li class="c-form__input c-form__input--file" v-for="(row, i) in content" :key="i">
               <label class="c-form__label" :for="`contentFile--${i}`">
                 <img class="c-form__thumbnail c-form__thumbnail--s" :src="row.src">
-                <span>{{row.name || 'Select file'}}</span>
+                <span>{{row.name || `Select ${row.file.type}`}}</span>
               </label>
               <input type="file" :id="`contentFile--${i}`" @change="handleContentFile($event, row, i)">
-              <button class="c-button c-button--input" v-on:click.prevent="removeElement(i)">X</button>
+              <button class="c-button c-button--delete c-button--input" v-on:click.prevent="removeElement(i)">Remove</button>
             </li>
           </ul>
         </div>
       </fieldset>
-      <!-- / Content -->
+      <!-- Checklist -->
     </div>
     <aside class="c-checklist">
       <header class="c-checklist__header">
@@ -89,29 +90,27 @@
       </header>
       <ul class="c-checklist__items">
         <li class="c-checklist__item">
-          <h2>Description</h2>
+          <h2>SEO</h2>
           <span v-if="hasText(this.description)">&#10003;</span>
         </li>
         <li class="c-checklist__item">
-          <h2>Thumbnail</h2>
-          <span v-if="isNotNull(this.thumbnail)">&#10003;</span>
+          <h2>Details</h2>
+          <span v-if="isNotNull(this.thumbnail) && hasText(this.headline) && hasText(this.summary)">&#10003;</span>
         </li>
         <li class="c-checklist__item">
-          <h2>Headline</h2>
-          <span v-if="hasText(this.headline)">&#10003;</span>
-        </li>
-        <li class="c-checklist__item">
-          <h2>Summary</h2>
-          <span v-if="hasText(this.summary)">&#10003;</span>
+          <h2>Content</h2>
+          <span v-if="this.content.length > 0">&#10003;</span>
         </li>
       </ul>
       <div class="c-form__actions">
-        <input class="c-link c-link--delete" type="submit" value="Delete" data-action="delete"
-          v-if="formType === 'edit'"
-          @click.prevent="submitForm">
-        <input class="c-link c-link--save" type="submit" value="Save" data-action="save"
-          @click.prevent="submitForm">
-        <input class="c-button c-button--submit" type="submit" value="Publish" data-action="publish"
+        <!-- <div class="c-dropdown c-dropwdown--dotted">
+          <input class="c-button c-button--delete" type="submit" value="Delete" data-action="delete"
+            v-if="formType === 'edit'"
+            @click.prevent="submitForm">
+          <input class="c-button c-button--l c-button--save" type="submit" value="Save" data-action="save"
+            @click.prevent="submitForm">
+        </div> -->
+        <input class="c-button c-button--l c-button--submit" type="submit" value="Publish" data-action="publish"
           :disabled="!formIsValid"
           @click.prevent="submitForm">
       </div>
@@ -139,7 +138,7 @@ export default {
             this.thumbnail = !null
             this.thumbnailUrl = item.thumbnailUrl
             this.headline = item.headline
-            this.content = item.content
+            this.content = item.content || []
             this.summary = item.summary
             this.created = item.created
           }
@@ -173,11 +172,11 @@ export default {
     }
   },
   methods: {
-    addContentField (type) {
+    addContentField (e) {
       document.createElement('li')
       this.content.push({
         file: {
-          name: `Select ${type}`
+          type: e.target.innerText.toLowerCase()
         }
       })
     },
@@ -265,7 +264,6 @@ export default {
   props: ['formType'],
   watch: {
     currentCase () {
-      console.log('Update fields (page load)')
     }
   }
 }

@@ -17,8 +17,6 @@ export default {
           headline: obj[key].headline,
           summary: obj[key].summary,
           content: obj[key].content,
-          // contentRows: obj[key].contentUrls,
-          // contentUrls: obj[key].contentUrls,
           created: obj[key].created,
           creatorId: obj[key].creatorId
         })
@@ -110,8 +108,19 @@ export default {
         })
     }
     if (payload.content) {
-      // Update the content with the Promise. Make DRY.
-      // Put firebase update in here. Keep below code in the else statement.
+      const currentContent = payload.content.filter((item) => !(item instanceof File))
+      const newContent = payload.content.filter((item) => item instanceof File)
+
+      Promise.all(newContent.map(
+        item => putStorageFile(item, payload.id))
+      )
+        .then((updatedContentArr) => {
+          const mergedContentArray = currentContent.concat(updatedContentArr)
+          return firebase.database().ref('cases').child(payload.id).update({content: mergedContentArray})
+        })
+        .catch((error) => {
+          console.log(`Some failed: `, error.message)
+        })
     }
 
     firebase.database().ref('cases').child(payload.id).update(updateObj)
