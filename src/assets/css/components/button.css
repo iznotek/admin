@@ -2,7 +2,7 @@
   display: inline-block;
   padding: calc(var(--bsl) / 5) var(--bsl);
   margin-bottom: -2px;
-  border: 1px solid var(--grey);
+  border: 1px solid var(--grey-light);
   border-radius: var(--bsl);
   font-size: var(--ms-s);
   font-weight: 500;
@@ -14,6 +14,10 @@
   &--submit:not(:disabled) {
     border-color: var(--secure);
     color: var(--secure);
+  }
+
+  &--input {
+    z-index: 1;
   }
 
   &:disabled {

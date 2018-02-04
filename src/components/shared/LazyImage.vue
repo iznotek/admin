@@ -1,7 +1,6 @@
 <template>
   <div class="lazyImage">
-    <!-- Uncommented mounted() below -->
-    <!-- <img class="lazyImage__target" :class="classes" :data-src="src" :alt="alt" /> -->
+    <img class="lazyImage__target" :class="classes" :data-src="src" :alt="alt" />
   </div>
 </template>
 
@@ -84,9 +83,9 @@ export default {
         // useEvents();
     }
   },
-  // mounted () {
-  //   this.chooseIntersectionTechnique()
-  // },
+  mounted () {
+    this.chooseIntersectionTechnique()
+  },
   props: ['classes', 'src', 'alt']
 }
 </script>

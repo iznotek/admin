@@ -1,4 +1,5 @@
 import * as firebase from 'firebase'
+import { putStorageFile } from '@/components/utils/putStorageFile'
 
 export default {
   loadCases ({commit}) {
@@ -16,14 +17,13 @@ export default {
           headline: obj[key].headline,
           summary: obj[key].summary,
           content: obj[key].content,
+          // contentRows: obj[key].contentUrls,
+          // contentUrls: obj[key].contentUrls,
           created: obj[key].created,
           creatorId: obj[key].creatorId
         })
       }
-      // console.log('Loaded cases: ', cases)
-      // console.log('Re-render stuff based on result above')
-      console.log('Update view on cases object change')
-      // console.log('While adding a new case, it adds an extra case when firebase saved the image. Look into Lazy Image?')
+
       commit('setLoadedCases', cases)
       commit('setLoading', false)
     })
@@ -37,7 +37,7 @@ export default {
       created: payload.created.toISOString(),
       creatorId: getters.user.id
     }
-    let contentUrls = []
+    let content = []
     let thumbnailUrl
     let key
     firebase.database().ref('cases').push(cases)
@@ -55,41 +55,23 @@ export default {
         return firebase.database().ref('cases').child(key).update({thumbnailUrl: thumbnailUrl})
       })
       .then(() => {
-        const content = payload.content
-        const arr = []
+        const contentArr = payload.content
 
-        const putStorageItem = (imageFile) => {
-          return new Promise((resolve, reject) => {
-            const storageRef = firebase.storage().ref(`cases/content/${key + imageFile.name}`)
-            const task = storageRef.put(imageFile)
-
-            task.on('state_changed', function (snapshot) {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              console.log('Upload is ' + progress + '% done')
-            }, function (error) {
-              console.log(error)
-            }, function () {
-              const downloadURL = task.snapshot.downloadURL
-              console.log('downloadURL: ', downloadURL)
-              arr.push(downloadURL)
-              resolve(downloadURL)
-            })
-          })
-        }
-
-        Promise.all(content.map(
-          item => putStorageItem(item))
+        Promise.all(contentArr.map(
+          item => putStorageFile(item, key))
         )
-          .then((arr) => {
-            console.log('filesArray: ', arr)
-            return firebase.database().ref('cases').child(key).update({contentUrls: arr})
+          .then((updatedContentArr) => {
+            console.log('new URL objects: ', updatedContentArr)
+            if (updatedContentArr.length === 0) {
+              updatedContentArr = [null]
+            }
+            return firebase.database().ref('cases').child(key).update({content: updatedContentArr})
           })
           .then(() => {
             commit('addCase', {
               ...cases,
-              // contentUrls: contentUrls,
-              contentUrls: ['sfddsfd', 'dsfsdf', contentUrls],
-              // thumbnailUrl: thumbnailUrl,
+              content: content,
+              thumbnailUrl: thumbnailUrl,
               id: key
             })
           })
@@ -126,6 +108,10 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    }
+    if (payload.content) {
+      // Update the content with the Promise. Make DRY.
+      // Put firebase update in here. Keep below code in the else statement.
     }
 
     firebase.database().ref('cases').child(payload.id).update(updateObj)

@@ -69,13 +69,13 @@
           <button @click.prevent="addContentField('image')">Add image</button>
           <!-- <tool-tip :content="contentTip" /> -->
           <ul>
-            <li class="c-form__input c-form__input--file" v-for="(row, i) in contentRows" :key="i">
+            <li class="c-form__input c-form__input--file" v-for="(row, i) in content" :key="i">
               <label class="c-form__label" :for="`contentFile--${i}`">
-                <img class="c-form__thumbnail c-form__thumbnail--s">
-                <span>{{row.file.name}}</span>
+                <img class="c-form__thumbnail c-form__thumbnail--s" :src="row.src">
+                <span>{{row.name || 'Select file'}}</span>
               </label>
               <input type="file" :id="`contentFile--${i}`" @change="handleContentFile($event, row, i)">
-              <button class="" v-on:click.prevent="removeElement(i)">Remove</button>
+              <button class="c-button c-button--input" v-on:click.prevent="removeElement(i)">X</button>
             </li>
           </ul>
         </div>
@@ -133,13 +133,13 @@ export default {
       if (this.formType === 'edit') {
         return this.$store.getters.loadedCases.filter((item) => {
           if (item.id === this.$route.params.id) {
-            console.log('Set fields (navigation)')
             this.id = item.id
             this.title = item.title
             this.description = item.description
             this.thumbnail = !null
             this.thumbnailUrl = item.thumbnailUrl
             this.headline = item.headline
+            this.content = item.content
             this.summary = item.summary
             this.created = item.created
           }
@@ -168,8 +168,6 @@ export default {
       summary: '',
       summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
       content: [],
-      contentUrls: [],
-      contentRows: [],
       contentTip: '<p>The content you want placed in the case.</p>',
       created: ''
     }
@@ -177,17 +175,14 @@ export default {
   methods: {
     addContentField (type) {
       document.createElement('li')
-      this.contentRows.push({
+      this.content.push({
         file: {
           name: `Select ${type}`
         }
       })
     },
     removeElement (i) {
-      this.contentUrls.splice(i, 1)
       this.content.splice(i, 1)
-      this.contentRows.splice(i, 1)
-      console.log('ContentUrls after removal: ', this.contentUrls)
       console.log('Content after removal: ', this.content)
     },
     handleContentFile (e, row, i) {

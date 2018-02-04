@@ -22,18 +22,15 @@ export const handleFile = {
       if (type === 'contentImage') {
         fileReader.addEventListener('load', () => {
           const contentImageUrl = fileReader.result
-          this.contentUrls.splice(i, 1, contentImageUrl)
+          // this.contentUrls.splice(i, 1, contentImageUrl)
           e.target.parentNode.querySelector('.c-form__thumbnail').src = contentImageUrl
+
           console.log('Check order of putting files in. If putting in no.3 before no.2, no.2 will not be included in the array')
-          console.log('contentUrls: ', this.contentUrls)
         })
         fileReader.readAsDataURL(files[0])
 
         const contentImage = files[0]
-
-        // this.content is now Array, maybe change to Object for Firebase
         this.content.splice(i, 1, contentImage)
-        console.log('content: ', this.content)
       }
     }
   }
