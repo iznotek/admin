@@ -76,7 +76,7 @@
                 <span>{{row.name || `Select ${row.file.type}`}}</span>
               </label>
               <input type="file" :id="`contentFile--${i}`" @change="handleContentFile($event, row, i)">
-              <button class="c-button c-button--delete c-button--input" v-on:click.prevent="removeElement(i)">Remove</button>
+              <button class="c-button c-button--secondary c-button--input" @click.prevent="removeElement(i)">Remove</button>
             </li>
           </ul>
         </div>
@@ -103,8 +103,11 @@
         </li>
       </ul>
       <div class="c-form__actions">
+        <input class="c-button c-button--secondary" type="submit" value="Delete" data-action="delete"
+            v-if="formType === 'edit'"
+            @click.prevent="submitForm">
         <!-- <div class="c-dropdown c-dropwdown--dotted">
-          <input class="c-button c-button--delete" type="submit" value="Delete" data-action="delete"
+          <input class="c-button c-button--secondary" type="submit" value="Delete" data-action="delete"
             v-if="formType === 'edit'"
             @click.prevent="submitForm">
           <input class="c-button c-button--l c-button--save" type="submit" value="Save" data-action="save"
@@ -115,16 +118,19 @@
           @click.prevent="submitForm">
       </div>
     </aside>
+    <modal v-if="modal" :title="modalTitle" :copy="modalCopy" event="Delete" @closeModal="closeModal" @submitModal="deleteCase"/>
   </form>
 </template>
 
 <script>
+import Modal from '@/components/shared/Modal'
 import Tooltip from '@/components/shared/Tooltip'
 import { handleFile } from '@/components/mixins/handleFile'
 import { transformLabel } from '@/components/mixins/transformLabel'
 
 export default {
   components: {
+    'modal': Modal,
     'toolTip': Tooltip
   },
   computed: {
@@ -168,7 +174,10 @@ export default {
       summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
       content: [],
       contentTip: '<p>The content you want placed in the case.</p>',
-      created: ''
+      created: '',
+      modal: false,
+      modalTitle: 'Delete case',
+      modalCopy: '<p>Remove this case from the database? <em>This action can\'t be undone.</em></p>'
     }
   },
   methods: {
@@ -180,9 +189,12 @@ export default {
         }
       })
     },
-    removeElement (i) {
-      this.content.splice(i, 1)
-      console.log('Content after removal: ', this.content)
+    closeModal () {
+      this.modal = false
+    },
+    deleteCase () {
+      this.$store.dispatch('deleteCase', this.id)
+      this.$router.push('/cases')
     },
     handleContentFile (e, row, i) {
       const file = e.target.files[0]
@@ -190,7 +202,6 @@ export default {
 
       this.handleFile(e, 'contentImage', i)
     },
-
     publishCase () {
       if (this.formType === 'edit') {
         const caseData = {
@@ -225,20 +236,15 @@ export default {
         this.$router.push('/cases')
       }
     },
-    deleteCase () {
-      this.$store.dispatch('deleteCase', this.id)
-      this.$router.push('/cases')
-    },
-    requestDeletion () {
-      // Alert modal method
-      this.deleteCase()
+    removeElement (i) {
+      this.content.splice(i, 1)
     },
     saveCase () {
       console.log('Saving case...')
     },
     submitForm (e) {
       if (e.target.dataset.action === 'delete') {
-        this.requestDeletion()
+        this.modal = true
       }
 
       if (e.target.dataset.action === 'save') {

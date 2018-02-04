@@ -21,7 +21,7 @@
         </ul>
       </div>
       <!-- Dropdown component + User indicator -->
-      <button @click="logOut">Log out</button>
+      <button class="c-button" @click="logOut">Log out</button>
     </nav>
   </header>
 </template>

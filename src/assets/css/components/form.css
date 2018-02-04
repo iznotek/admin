@@ -125,6 +125,7 @@
       height: var(--bsl);
       width: var(--bsl);
       object-fit: cover;
+      background-color: var(--grey-light);
     }
   }
 

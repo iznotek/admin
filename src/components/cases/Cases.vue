@@ -22,7 +22,7 @@
         </router-link>
         <div class="c-card__actions">
           <router-link class="c-button c-button--l" :to="`/edit/${item.id}`" exact>Edit</router-link>
-          <button class="c-button c-button--delete">Delete</button>
+          <button class="c-button c-button--secondary">Delete</button>
         </div>
       </article>
     </div>

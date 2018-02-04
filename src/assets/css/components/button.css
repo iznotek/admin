@@ -9,9 +9,12 @@
   background-color: transparent;
   cursor: pointer;
 
-  &--submit:not(:disabled) {
-    border-color: var(--secure);
-    color: var(--secure);
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &--input {
+    z-index: 1;
   }
 
   &--l {
@@ -22,19 +25,21 @@
     font-size: var(--ms-s);
   }
 
-  &--delete {
+  &--danger {
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+
+  &--secondary {
     color: var(--grey);
 
     &:hover {
-      color: var(--danger);
+      color: var(--grey-dark);
     }
   }
 
-  &--input {
-    z-index: 1;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
+  &--submit:not(:disabled) {
+    border-color: var(--secure);
+    color: var(--secure);
   }
 }
