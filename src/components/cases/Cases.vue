@@ -1,6 +1,7 @@
 <template>
   <article class="t-page">
     <header class="t-page__header">
+        <upload />
         <h1 class="t-page__heading">{{this.$route.name}} <small>({{cases.length}})</small></h1>
         <div class="c-toggle">
           <button class="c-toggle__button c-toggle__button--active" @click="displayAs('grid', $event)">Grid</button>
@@ -15,7 +16,7 @@
             <router-link :to="`/edit/${item.id}`" exact>{{item.headline}}</router-link>
           </h1>
           <time class="c-card__date" :datetime="item.created">{{formatDate(item.created)}}</time>
-          <!-- Published? ^^^ -->
+          <!-- Published date? ^^^ -->
         </header>
         <router-link :to="`/edit/${item.id}`" exact>
           <lazy-image :classes="'c-card__thumbnail'" :src="item.thumbnailUrl" :alt="item.headline" />
@@ -32,10 +33,12 @@
 <script>
 import { formatDate } from '@/components/mixins/formatDate'
 import LazyImage from '@/components/shared/LazyImage'
+import Upload from '@/components/shared/Upload'
 
 export default {
   components: {
-    'lazyImage': LazyImage
+    'lazyImage': LazyImage,
+    'upload': Upload
   },
   computed: {
     cases () {

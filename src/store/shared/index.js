@@ -5,6 +5,7 @@ import mutations from './mutations'
 export default {
   state: {
     loading: false,
+    uploads: null,
     error: null
   },
   actions,
