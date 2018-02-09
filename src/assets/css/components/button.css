@@ -13,10 +13,6 @@
     cursor: not-allowed;
   }
 
-  &--input {
-    z-index: 1;
-  }
-
   &--l {
     padding: calc(var(--bsl) / 5) var(--bsl);
     margin-bottom: -2px;

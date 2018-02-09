@@ -3,7 +3,7 @@
   <aside class="notification" v-if="type === 'uploads' && uploads !== null">
     <header>
       <h1>Uploads</h1>
-      <button>Close</button>
+      <button @click="closeNotification">Close</button>
     </header>
     <ul>
       <li v-for="(item, i) in uploads" :key="i">
@@ -22,6 +22,11 @@ export default {
   computed: {
     uploads () {
       return this.$store.getters.uploads
+    }
+  },
+  methods: {
+    closeNotification () {
+      this.$store.dispatch('uploadStatus', null)
     }
   },
   props: ['type'],

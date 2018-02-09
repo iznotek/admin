@@ -23,6 +23,16 @@
       background-color: var(--light);
     }
 
+    &--input {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 1;
+      height: 100%;
+      padding-right: var(--bsl);
+      padding-left: calc(var(--bsl) / 2);
+    }
+
     & .c-button {
       margin-left: calc(var(--bsl) / 2);
     }
@@ -79,7 +89,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    cursor: pointer;
+    // cursor: pointer;
 
     & .c-form__thumbnail {
       margin-right: calc(var(--bsl) / 2);

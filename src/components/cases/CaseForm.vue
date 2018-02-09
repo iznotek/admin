@@ -1,33 +1,14 @@
 <template>
   <form class="c-form c-form--checklist">
     <div class="c-form__fieldsets">
-      <!-- SEO -->
       <fieldset>
         <legend>SEO</legend>
-        <div class="c-form__field">
-          <div class="c-form__label">
-            <label class="c-form__labelName" for="title">Title</label>
-            <tool-tip :content="titleTip" />
-          </div>
-          <input class="c-form__input" type="text" id="title" 
-            v-model="title" 
-            @focus="resetLabel"
-            @blur="checkLabel">
-        </div>
-        <div class="c-form__field">
-          <div class="c-form__label">
-            <label class="c-form__labelName" for="description">Description *</label>
-            <tool-tip :content="descriptionTip" />
-          </div>
-          <textarea class="c-form__input" id="description" 
-            v-model="description"
-            @focus="resetLabel" 
-            @blur="checkLabel"></textarea>
-        </div>
+        <form-input type="text" name="Title" :copy="titleTip" v-model="title" />
+        <form-input type="textarea" name="Description *" :copy="descriptionTip" v-model="description" />
       </fieldset>
-      <!-- Details -->
       <fieldset>
         <legend>Details</legend>
+        <!-- <form-input type="file" name="Thumbnail *" :copy="thumbnailTip"/> -->
         <div class="c-form__field">
           <div class="c-form__label">
             <label class="c-form__labelName" for="thumbnail">Thumbnail *</label>
@@ -38,49 +19,29 @@
             <img class="c-form__thumbnail" :src="thumbnailUrl">
           </div>
         </div>
-        <div class="c-form__field">
-          <div class="c-form__label">
-            <label class="c-form__labelName" for="headline">Headline *</label>
-            <tool-tip :content="headlineTip" />
-          </div>
-          <input class="c-form__input" type="text" id="headline" 
-            v-model="headline"
-            @focus="resetLabel" 
-            @blur="checkLabel">
-        </div>
-        <div class="c-form__field">
-          <div class="c-form__label">
-            <label class="c-form__labelName" for="summary">Summary *</label>
-            <tool-tip :content="summaryTip" />
-          </div>
-          <textarea class="c-form__input" id="summary" rows="6"
-            v-model="summary"
-            @focus="resetLabel" 
-            @blur="checkLabel"></textarea>
-        </div>
+        <form-input type="text" name="Headline *" :copy="headlineTip" v-model="headline" />
+        <form-input type="textarea" name="Summary *" :copy="summaryTip" v-model="summary" />
       </fieldset>
-      <!-- Content -->
       <fieldset>
         <legend>Content</legend>
+        <!-- <content-editor /> -->
         <div class="c-form__field">
           <div class="c-form__actions c-form__actions--content">
-            <!-- Pass in content type in the function -->
-            <button class="c-button c-button--l" @click.prevent="addContentField">Quote</button>
-            <button class="c-button c-button--l" @click.prevent="addContentField">Video</button>
-            <button class="c-button c-button--l" @click.prevent="addContentField">Image</button>
+            <button class="c-button c-button--l" @click.prevent="addContentField('quote')">Quote</button>
+            <button class="c-button c-button--l" @click.prevent="addContentField('video')">Video</button>
+            <button class="c-button c-button--l" @click.prevent="addContentField('image')">Image</button>
           </div>
           <ul>
             <li class="c-form__input c-form__input--file" v-for="(item, i) in content" :key="i">
-              <!-- <content-block :item="item" :key="i"/> item.type pass on? -->
               <label class="c-form__label" :for="`contentFile--${i}`">
                 <img class="c-form__thumbnail c-form__thumbnail--s" :src="item.src">
                 <span>{{item.name || `Select ${item.file.type}`}}</span>
               </label>
               <input type="file" :id="`contentFile--${i}`" @change="handleContentFile($event, item, i)">
-              <div style="z-index: 1;">
-                 <button class="c-button c-button--secondary c-button--input" @click.prevent="moveContent(i, 'up')">Up</button>
-                <button class="c-button c-button--secondary c-button--input" @click.prevent="moveContent(i,'down')">Down</button>
-                <button class="c-button c-button--secondary c-button--input" @click.prevent="removeContent(i)">Remove</button>
+              <div class="c-form__actions c-form__actions--input">
+                <button class="c-button c-button--secondary" @click.prevent="moveContent(i, 'up')">Up</button>
+                <button class="c-button c-button--secondary" @click.prevent="moveContent(i, 'down')">Down</button>
+                <button class="c-button c-button--secondary" @click.prevent="removeContent(i)">Remove</button>
               </div>
             </li>
           </ul>
@@ -88,7 +49,6 @@
       </fieldset>
     </div>
     
-    <!-- Checklist -->
     <aside class="c-checklist">
       <header class="c-checklist__header">
         <h1>Case</h1>
@@ -117,20 +77,29 @@
           @click.prevent="submitForm">
       </div>
     </aside>
-    <modal v-if="modal" :title="modalTitle" :copy="modalCopy" event="Delete" @closeModal="closeModal" @submitModal="deleteCase"/>
+
+    <modal v-if="modal" event="Delete" @closeModal="closeModal" @submitModal="deleteCase">
+      <h1>Delete case</h1>
+      <p>Remove this case from the database? <em>This action can't be undone.</em></p>
+    </modal>
   </form>
 </template>
 
 <script>
 import Modal from '@/components/shared/Modal'
+import FormInput from '@/components/shared/FormInput'
+// Delete below if successful forminput component
 import Tooltip from '@/components/shared/Tooltip'
 import { handleFile } from '@/components/mixins/handleFile'
 import { swapArrayItems } from '@/components/mixins/swapArrayItems'
+// Delete below if successful forminput component
 import { transformLabel } from '@/components/mixins/transformLabel'
 
 export default {
   components: {
+    'formInput': FormInput,
     'modal': Modal,
+    // Delete below if successful component
     'toolTip': Tooltip
   },
   computed: {
@@ -174,7 +143,6 @@ export default {
       summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
       content: [],
       // contentUrls: [],
-      // testArr: [1, 2],
       contentTip: '<p>The content you want placed in the case.</p>',
       created: '',
       modal: false,
@@ -183,11 +151,11 @@ export default {
     }
   },
   methods: {
-    addContentField (e) {
+    addContentField (type) {
       document.createElement('li')
       this.content.push({
         file: {
-          type: e.target.innerText.toLowerCase()
+          type: type
         }
       })
     },
@@ -198,21 +166,20 @@ export default {
       this.$store.dispatch('deleteCase', this.id)
       this.$router.push('/cases')
     },
-    handleContentFile (e, row, i) {
+    handleContentFile (e, item, i) {
       const file = e.target.files[0]
-      row.file = file
+      item.file = file
 
       this.handleFile(e, 'contentImage', i)
     },
     moveContent (i, direction) {
       if (direction === 'up') {
         this.swapItems(this.content, i, i - 1)
-        console.log('up: ', this.content)
       } else if (direction === 'down') {
         this.swapItems(this.content, i, i + 1)
-        console.log('down: ', this.content)
       }
-      return this.content
+
+      this.$forceUpdate()
     },
     publishCase () {
       if (this.formType === 'edit') {
@@ -268,6 +235,7 @@ export default {
       }
     }
   },
+  // Remove transformLabel if formInput is success
   mixins: [handleFile, swapArrayItems, transformLabel],
   mounted () {
     if (this.formType === 'edit') {
@@ -278,7 +246,6 @@ export default {
   props: ['formType'],
   watch: {
     currentCase () {
-      console.log(this.content)
     }
   }
 }

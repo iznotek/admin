@@ -2,8 +2,8 @@
   <aside class="c-modal">
     <div class="c-modal__container">
       <header class="c-modal__content">
-        <h1 v-html="title"></h1>
-        <div v-html="copy"></div>
+        <!-- Named slots with specific classes for heading and content? -->
+        <slot></slot>
       </header>
       <div class="c-modal__actions">
         <button class="c-button c-button--secondary" @click.prevent="closeModal">Cancel</button>
@@ -23,6 +23,6 @@ export default {
       this.$emit('submitModal')
     }
   },
-  props: ['title', 'copy', 'event']
+  props: ['event']
 }
 </script>
