@@ -6,6 +6,11 @@
 
 <script>
 export default {
+  watch: {
+    src (url) {
+      this.$el.querySelector('img').src = url
+    }
+  },
   data () {
     return {
       ticking: false

@@ -1,6 +1,5 @@
 <template>
-  <form class="c-form c-form--checklist"> 
-    <!-- @submit.prevent="submitForm" -->
+  <form class="c-form c-form--checklist">
     <div class="c-form__fieldsets">
       <!-- SEO -->
       <fieldset>
@@ -65,25 +64,31 @@
         <legend>Content</legend>
         <div class="c-form__field">
           <div class="c-form__actions c-form__actions--content">
+            <!-- Pass in content type in the function -->
             <button class="c-button c-button--l" @click.prevent="addContentField">Quote</button>
             <button class="c-button c-button--l" @click.prevent="addContentField">Video</button>
             <button class="c-button c-button--l" @click.prevent="addContentField">Image</button>
           </div>
           <ul>
             <li class="c-form__input c-form__input--file" v-for="(item, i) in content" :key="i">
+              <!-- <content-block :item="item" :key="i"/> item.type pass on? -->
               <label class="c-form__label" :for="`contentFile--${i}`">
-                <!-- item.src disappears after new additions. Check item.src -->
                 <img class="c-form__thumbnail c-form__thumbnail--s" :src="item.src">
                 <span>{{item.name || `Select ${item.file.type}`}}</span>
               </label>
               <input type="file" :id="`contentFile--${i}`" @change="handleContentFile($event, item, i)">
-              <button class="c-button c-button--secondary c-button--input" @click.prevent="removeElement(i)">Remove</button>
+              <div style="z-index: 1;">
+                 <button class="c-button c-button--secondary c-button--input" @click.prevent="moveContent(i, 'up')">Up</button>
+                <button class="c-button c-button--secondary c-button--input" @click.prevent="moveContent(i,'down')">Down</button>
+                <button class="c-button c-button--secondary c-button--input" @click.prevent="removeContent(i)">Remove</button>
+              </div>
             </li>
           </ul>
         </div>
       </fieldset>
-      <!-- Checklist -->
     </div>
+    
+    <!-- Checklist -->
     <aside class="c-checklist">
       <header class="c-checklist__header">
         <h1>Case</h1>
@@ -107,13 +112,6 @@
         <input class="c-button c-button--secondary" type="submit" value="Delete" data-action="delete"
             v-if="formType === 'edit'"
             @click.prevent="submitForm">
-        <!-- <div class="c-dropdown c-dropwdown--dotted">
-          <input class="c-button c-button--secondary" type="submit" value="Delete" data-action="delete"
-            v-if="formType === 'edit'"
-            @click.prevent="submitForm">
-          <input class="c-button c-button--l c-button--save" type="submit" value="Save" data-action="save"
-            @click.prevent="submitForm">
-        </div> -->
         <input class="c-button c-button--l c-button--submit" type="submit" value="Publish" data-action="publish"
           :disabled="!formIsValid"
           @click.prevent="submitForm">
@@ -127,6 +125,7 @@
 import Modal from '@/components/shared/Modal'
 import Tooltip from '@/components/shared/Tooltip'
 import { handleFile } from '@/components/mixins/handleFile'
+import { swapArrayItems } from '@/components/mixins/swapArrayItems'
 import { transformLabel } from '@/components/mixins/transformLabel'
 
 export default {
@@ -174,6 +173,8 @@ export default {
       summary: '',
       summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
       content: [],
+      // contentUrls: [],
+      // testArr: [1, 2],
       contentTip: '<p>The content you want placed in the case.</p>',
       created: '',
       modal: false,
@@ -203,6 +204,16 @@ export default {
 
       this.handleFile(e, 'contentImage', i)
     },
+    moveContent (i, direction) {
+      if (direction === 'up') {
+        this.swapItems(this.content, i, i - 1)
+        console.log('up: ', this.content)
+      } else if (direction === 'down') {
+        this.swapItems(this.content, i, i + 1)
+        console.log('down: ', this.content)
+      }
+      return this.content
+    },
     publishCase () {
       if (this.formType === 'edit') {
         const caseData = {
@@ -212,6 +223,7 @@ export default {
           headline: this.headline,
           summary: this.summary,
           content: this.content
+          // contentUrls: this.contentUrls
           // Published flag?
         }
 
@@ -229,6 +241,7 @@ export default {
           headline: this.headline,
           summary: this.summary,
           content: this.content,
+          // contentUrls: this.contentUrls,
           created: new Date()
           // Published flag?
         }
@@ -237,19 +250,13 @@ export default {
         this.$router.push('/cases')
       }
     },
-    removeElement (i) {
+    removeContent (i) {
       this.content.splice(i, 1)
-    },
-    saveCase () {
-      console.log('Saving case...')
+      // this.contentUrls.splice(i, 1)
     },
     submitForm (e) {
       if (e.target.dataset.action === 'delete') {
         this.modal = true
-      }
-
-      if (e.target.dataset.action === 'save') {
-        this.saveCase()
       }
 
       if (!this.formIsValid) {
@@ -261,7 +268,7 @@ export default {
       }
     }
   },
-  mixins: [handleFile, transformLabel],
+  mixins: [handleFile, swapArrayItems, transformLabel],
   mounted () {
     if (this.formType === 'edit') {
       const labels = [].slice.call(this.$el.querySelectorAll('.c-form__labelName'))
@@ -271,6 +278,7 @@ export default {
   props: ['formType'],
   watch: {
     currentCase () {
+      console.log(this.content)
     }
   }
 }

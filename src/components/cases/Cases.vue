@@ -1,7 +1,6 @@
 <template>
   <article class="t-page">
     <header class="t-page__header">
-        <upload />
         <h1 class="t-page__heading">{{this.$route.name}} <small>({{cases.length}})</small></h1>
         <div class="c-toggle">
           <button class="c-toggle__button c-toggle__button--active" @click="displayAs('grid', $event)">Grid</button>
@@ -33,12 +32,10 @@
 <script>
 import { formatDate } from '@/components/mixins/formatDate'
 import LazyImage from '@/components/shared/LazyImage'
-import Upload from '@/components/shared/Upload'
 
 export default {
   components: {
-    'lazyImage': LazyImage,
-    'upload': Upload
+    'lazyImage': LazyImage
   },
   computed: {
     cases () {

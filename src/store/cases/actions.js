@@ -54,9 +54,10 @@ export default {
       })
       .then(() => {
         const contentArr = payload.content
+        const uploadStatus = []
 
         Promise.all(contentArr.map(
-          item => putStorageFile(item, key))
+          item => putStorageFile(item, key, uploadStatus))
         )
           .then((updatedContentArr) => {
             console.log('new URL objects: ', updatedContentArr)
@@ -108,15 +109,14 @@ export default {
         })
     }
     if (payload.content) {
-      const currentContent = payload.content.filter((item) => !(item instanceof File))
-      const newContent = payload.content.filter((item) => item instanceof File)
+      // What do I do with uploadStatus? Maybe console.log it afterwards.
+      const uploadStatus = []
 
-      Promise.all(newContent.map(
-        item => putStorageFile(item, payload.id))
+      Promise.all(payload.content.map(
+        item => putStorageFile(item, payload.id, uploadStatus))
       )
         .then((updatedContentArr) => {
-          const mergedContentArray = currentContent.concat(updatedContentArr)
-          return firebase.database().ref('cases').child(payload.id).update({content: mergedContentArray})
+          return firebase.database().ref('cases').child(payload.id).update({content: updatedContentArr})
         })
         .catch((error) => {
           console.log(`Some failed: `, error.message)

@@ -6,6 +6,10 @@
       <label></label>
     </div>
     <!-- / Remove -->
+    
+    <notify type="uploads" />
+    <!-- Check possibility to include Modal as well. Emit events? -->
+
     <transition name="u-slideIn">
       <main-menu v-if="userIsAuthenticated" />
     </transition>
@@ -19,10 +23,12 @@
 
 <script>
 import MainMenu from '@/components/shared/MainMenu'
+import Notify from '@/components/shared/Notify'
 
 export default {
   components: {
-    'mainMenu': MainMenu
+    'mainMenu': MainMenu,
+    'notify': Notify
   },
   computed: {
     userIsAuthenticated () {
