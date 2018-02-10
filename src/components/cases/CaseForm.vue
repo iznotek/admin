@@ -8,17 +8,7 @@
       </fieldset>
       <fieldset>
         <legend>Details</legend>
-        <!-- <form-input type="file" name="Thumbnail *" :copy="thumbnailTip"/> -->
-        <div class="c-form__field">
-          <div class="c-form__label">
-            <label class="c-form__labelName" for="thumbnail">Thumbnail *</label>
-            <tool-tip :content="thumbnailTip" />
-          </div>
-          <div class="c-form__input c-form__input--file">
-            <input type="file" id="thumbnail" @change="handleFile($event, 'thumbnail')">
-            <img class="c-form__thumbnail" :src="thumbnailUrl">
-          </div>
-        </div>
+        <form-input type="file" name="Thumbnail *" :copy="thumbnailTip" @updateThumbnail="setThumbnail"/>
         <form-input type="text" name="Headline *" :copy="headlineTip" v-model="headline" />
         <form-input type="textarea" name="Summary *" :copy="summaryTip" v-model="summary" />
       </fieldset>
@@ -52,7 +42,7 @@
     <aside class="c-checklist">
       <header class="c-checklist__header">
         <h1>Case</h1>
-        <small>Show progress</small>
+        <small>0%</small>
       </header>
       <ul class="c-checklist__items">
         <li class="c-checklist__item">
@@ -88,37 +78,30 @@
 <script>
 import Modal from '@/components/shared/Modal'
 import FormInput from '@/components/shared/FormInput'
-// Delete below if successful forminput component
-import Tooltip from '@/components/shared/Tooltip'
 import { handleFile } from '@/components/mixins/handleFile'
 import { swapArrayItems } from '@/components/mixins/swapArrayItems'
-// Delete below if successful forminput component
-import { transformLabel } from '@/components/mixins/transformLabel'
+import { checkField } from '@/components/mixins/checkField'
 
 export default {
   components: {
     'formInput': FormInput,
-    'modal': Modal,
-    // Delete below if successful component
-    'toolTip': Tooltip
+    'modal': Modal
   },
   computed: {
     currentCase () {
-      if (this.formType === 'edit') {
-        return this.$store.getters.loadedCases.filter((item) => {
-          if (item.id === this.$route.params.id) {
-            this.id = item.id
-            this.title = item.title
-            this.description = item.description
-            this.thumbnail = !null
-            this.thumbnailUrl = item.thumbnailUrl
-            this.headline = item.headline
-            this.content = item.content || []
-            this.summary = item.summary
-            this.created = item.created
-          }
-        })
-      }
+      return this.$store.getters.loadedCases.filter((item) => {
+        if (item.id === this.$route.params.id) {
+          this.id = item.id
+          this.title = item.title
+          this.description = item.description
+          this.thumbnail = !null
+          // this.thumbnailUrl = item.thumbnailUrl
+          this.headline = item.headline
+          this.content = item.content || []
+          this.summary = item.summary
+          this.created = item.created
+        }
+      })
     },
     formIsValid () {
       return this.hasText(this.description) &&
@@ -135,7 +118,7 @@ export default {
       description: '',
       descriptionTip: '<p>Meta description: Describes what the case is about.</p>',
       thumbnail: null,
-      thumbnailUrl: '',
+      // thumbnailUrl: '',
       thumbnailTip: '<p>The thumbnail shown on the different pages of the website.</p>',
       headline: '',
       headlineTip: '<p>The headline of the case.</p>',
@@ -221,6 +204,9 @@ export default {
       this.content.splice(i, 1)
       // this.contentUrls.splice(i, 1)
     },
+    setThumbnail (value) {
+      this.thumbnail = value
+    },
     submitForm (e) {
       if (e.target.dataset.action === 'delete') {
         this.modal = true
@@ -235,8 +221,7 @@ export default {
       }
     }
   },
-  // Remove transformLabel if formInput is success
-  mixins: [handleFile, swapArrayItems, transformLabel],
+  mixins: [checkField, handleFile, swapArrayItems],
   mounted () {
     if (this.formType === 'edit') {
       const labels = [].slice.call(this.$el.querySelectorAll('.c-form__labelName'))

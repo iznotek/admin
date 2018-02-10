@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-    <!-- Remove in production -->
     <div class="layout">
       <input type="checkbox">
       <label></label>
     </div>
-    <!-- / Remove -->
     
     <notify type="uploads" />
     <!-- Check possibility to include Modal as well. Emit events? -->

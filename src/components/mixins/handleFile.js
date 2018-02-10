@@ -17,6 +17,7 @@ export const handleFile = {
         fileReader.readAsDataURL(files[0])
 
         this.thumbnail = files[0]
+        return this.thumbnail
       }
 
       if (type === 'contentImage') {
