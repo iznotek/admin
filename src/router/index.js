@@ -2,12 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Dashboard from '@/components/pages/Dashboard'
 import Home from '@/components/pages/Home'
+import Work from '@/components/pages/Work'
+import Blog from '@/components/pages/Blog'
 import About from '@/components/pages/About'
 import Contact from '@/components/pages/Contact'
 import SignIn from '@/components/pages/user/SignIn'
 import Cases from '@/components/cases/Cases'
 import AddCase from '@/components/cases/AddCase'
 import EditCase from '@/components/cases/EditCase'
+import Posts from '@/components/posts/Posts'
+import AddPost from '@/components/posts/AddPost'
+// // import EditPost from '@/components/posts/EditPost'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -41,6 +46,16 @@ export default new Router({
       component: Home
     },
     {
+      path: '/pages/work',
+      name: 'Work',
+      component: Work
+    },
+    {
+      path: '/pages/blog',
+      name: 'Blog',
+      component: Blog
+    },
+    {
       path: '/pages/about',
       name: 'About',
       component: About
@@ -64,6 +79,21 @@ export default new Router({
       path: '/edit/:id',
       name: 'Edit case',
       component: EditCase
+    },
+    {
+      path: '/posts',
+      name: 'Posts',
+      component: Posts
+    },
+    {
+      path: '/posts/add',
+      name: 'Add post',
+      component: AddPost
     }
+    // {
+    //   path: '/edit/:id',
+    //   name: 'Edit post',
+    //   component: EditPost
+    // }
   ]
 })

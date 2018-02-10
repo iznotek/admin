@@ -1,0 +1,52 @@
+.c-dropdown {
+  position: relative;
+  padding: calc(var(--bsl) / 2);
+
+  &__dots {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(var(--bsl) / 1.4);
+    height: 100%;
+    cursor: pointer;
+
+    & span {
+      height: calc(var(--bsl) / 8);
+      width: calc(var(--bsl) / 8);
+      border-radius: 50%;
+      background-color: var(--grey);
+    }
+  }
+
+  &__actions {
+    position: absolute;
+    top: calc(var(--bsl) * 1.25);
+    left: calc(var(--bsl) / 3);
+    min-width: var(--col-3);
+    padding: var(--bsl);
+    border-radius: var(--radius);
+    background-color: var(--grey-darkest);
+    opacity: 0;
+    transform: translate3d(0, calc(var(--bsl) / 2), 0);
+    transition: opacity .25s linear, transform .25s cubic-bezier(.75, 0, 0, 1);
+    pointer-events: none;
+
+    &--open {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: calc(-1 * var(--bsl) / 6);
+      left: calc(var(--bsl) / 3);
+      height: calc(var(--bsl) / 3);
+      width: calc(var(--bsl) / 3);
+      background-color: var(--grey-darkest);
+      transform-origin: center;
+      transform: rotate(45deg);
+    }
+  }
+}

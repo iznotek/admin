@@ -1,12 +1,12 @@
 .c-mainMenu {
   position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  height: 100vh;
-  width: var(--col-3);
-  border-right: 1px solid var(--dark);
-  overflow: hidden;
+  top: var(--bsl);
+  left: var(--bsl);
+  z-index: 10;
+  width: calc(var(--col-3) - var(--bsl));
+  border: 1px solid var(--dark);
+  border-radius: var(--radius);
+  // overflow: hidden;
   background-color: #191919;
   box-shadow: 1px 0 8px rgba(0, 0, 0, .04);
 
@@ -22,14 +22,14 @@
   }
 
   &__nav {
-    padding-top: calc(var(--bsl) * 1.5);
+    padding-top: calc(var(--bsl) / 1.5);
     padding-bottom: var(--bsl);
   }
 
   &__section {
     padding: var(--bsl);
     margin-bottom: -1px;
-    border-bottom: 1px solid var(--dark);
+    border-bottom: 1px solid var(--grey-darkest);
   }
 
   &__subtitle {
@@ -39,9 +39,24 @@
     color: var(--grey-dark);
   }
 
-  &__title {
-    padding-right: var(--bsl);
-    padding-left: var(--bsl);
-    color: var(--grey-dark);
+  &__user {
+    display: flex;
+    margin-left: calc(var(--bsl) / 1.5);
+  }
+
+  &__userIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(var(--bsl) * 1.5);
+    width: calc(var(--bsl) * 1.5);
+    border-radius: 50%;
+    background: darkslateblue;
+  }
+
+  &__userName {
+    font-size: var(--ms-s);
+    letter-spacing: var(--spacing-wide);
+    color: var(--light);
   }
 }

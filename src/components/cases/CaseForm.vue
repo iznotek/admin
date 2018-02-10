@@ -60,11 +60,8 @@
       </ul>
       <div class="c-form__actions">
         <input class="c-button c-button--secondary" type="submit" value="Delete" data-action="delete"
-            v-if="formType === 'edit'"
-            @click.prevent="submitForm">
-        <input class="c-button c-button--l c-button--submit" type="submit" value="Publish" data-action="publish"
-          :disabled="!formIsValid"
-          @click.prevent="submitForm">
+          v-if="formType === 'edit'" @click.prevent="submitForm">
+        <input class="c-button c-button--l c-button--submit" type="submit" value="Publish" data-action="publish" :disabled="!formIsValid" @click.prevent="submitForm">
       </div>
     </aside>
 
