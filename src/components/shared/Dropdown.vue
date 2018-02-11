@@ -5,9 +5,9 @@
       <span></span>
       <span></span>
     </div>
-    <ul class="c-dropdown__actions" data-dropdown="actions">
+    <div class="c-dropdown__actions" data-dropdown="actions">
       <slot></slot>
-    </ul>
+    </div>
   </div>
 </template>
 

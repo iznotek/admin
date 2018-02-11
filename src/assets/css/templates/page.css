@@ -41,5 +41,10 @@
   &__heading {
     font-size: var(--ms-m);
     font-weight: 300;
+
+    & small {
+      font-size: var(--ms-r);
+      color: var(--grey);
+    }
   }
 }

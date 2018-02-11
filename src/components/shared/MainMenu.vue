@@ -3,10 +3,11 @@
     <nav class="c-mainMenu__nav">
       <div class="c-mainMenu__user">
         <router-link class="c-mainMenu__userIcon" to="/" exact>
-          <h1 class="c-mainMenu__userName">TI</h1>
+          <h1 class="c-mainMenu__userName">CN</h1>
         </router-link>
         <dropdown> <!-- Pass down type of dropdown, like style and orientation -->
-          <button class="c-button" @click="logOut">Log out</button>
+          <button class="c-button c-button--light">Settings</button>
+          <button class="c-button c-button--light" @click="logOut">Log out</button>
         </dropdown>
       </div>
       <div class="c-mainMenu__section">

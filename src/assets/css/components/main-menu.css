@@ -17,6 +17,7 @@
 
     &--active {
       font-weight: 300;
+      text-decoration: line-through;
       cursor: default;
     }
   }
@@ -28,8 +29,11 @@
 
   &__section {
     padding: var(--bsl);
-    margin-bottom: -1px;
-    border-bottom: 1px solid var(--grey-darkest);
+
+    &:not(:last-child) {
+      margin-bottom: -1px;
+      border-bottom: 1px solid var(--dark);
+    }
   }
 
   &__subtitle {
@@ -48,14 +52,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: calc(var(--bsl) * 1.5);
-    width: calc(var(--bsl) * 1.5);
+    height: calc(var(--bsl) / 0.75);
+    width: calc(var(--bsl) / 0.75);
+    // border: 1px solid var(--grey-darkest);
     border-radius: 50%;
-    background: darkslateblue;
+    background-color: var(--dark);
   }
 
   &__userName {
-    font-size: var(--ms-s);
+    font-size: var(--ms-xs);
     letter-spacing: var(--spacing-wide);
     color: var(--light);
   }

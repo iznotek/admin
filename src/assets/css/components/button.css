@@ -21,6 +21,10 @@
     font-size: var(--ms-s);
   }
 
+  &--light {
+    color: var(--light);
+  }
+
   &--danger {
     color: var(--danger);
     border-color: var(--danger);

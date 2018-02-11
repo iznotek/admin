@@ -14,28 +14,7 @@
       </fieldset>
       <fieldset>
         <legend>Content</legend>
-        <!-- <content-editor /> -->
-        <div class="c-form__field">
-          <div class="c-form__actions c-form__actions--content">
-            <button class="c-button c-button--l" @click.prevent="addContentField('quote')">Quote</button>
-            <button class="c-button c-button--l" @click.prevent="addContentField('video')">Video</button>
-            <button class="c-button c-button--l" @click.prevent="addContentField('image')">Image</button>
-          </div>
-          <ul>
-            <li class="c-form__input c-form__input--file" v-for="(item, i) in content" :key="i">
-              <label class="c-form__label" :for="`contentFile--${i}`">
-                <img class="c-form__thumbnail c-form__thumbnail--s" :src="item.src">
-                <span>{{item.name || `Select ${item.file.type}`}}</span>
-              </label>
-              <input type="file" :id="`contentFile--${i}`" @change="handleContentFile($event, item, i)">
-              <div class="c-form__actions c-form__actions--input">
-                <button class="c-button c-button--secondary" @click.prevent="moveContent(i, 'up')">Up</button>
-                <button class="c-button c-button--secondary" @click.prevent="moveContent(i, 'down')">Down</button>
-                <button class="c-button c-button--secondary" @click.prevent="removeContent(i)">Remove</button>
-              </div>
-            </li>
-          </ul>
-        </div>
+        <content-editor :content="content" @addContentField="addContentField"  @handleContentFile="handleContentFile" @moveContent="moveContent" @removeContent="removeContent"/>
       </fieldset>
     </div>
     
@@ -73,14 +52,16 @@
 </template>
 
 <script>
-import Modal from '@/components/shared/Modal'
+import ContentEditor from '@/components/shared/ContentEditor'
 import FormInput from '@/components/shared/FormInput'
+import Modal from '@/components/shared/Modal'
 import { handleFile } from '@/components/mixins/handleFile'
 import { swapArrayItems } from '@/components/mixins/swapArrayItems'
 import { checkField } from '@/components/mixins/checkField'
 
 export default {
   components: {
+    'contentEditor': ContentEditor,
     'formInput': FormInput,
     'modal': Modal
   },
@@ -134,9 +115,7 @@ export default {
     addContentField (type) {
       document.createElement('li')
       this.content.push({
-        file: {
-          type: type
-        }
+        type: type
       })
     },
     closeModal () {
@@ -158,8 +137,6 @@ export default {
       } else if (direction === 'down') {
         this.swapItems(this.content, i, i + 1)
       }
-
-      this.$forceUpdate()
     },
     publishCase () {
       if (this.formType === 'edit') {

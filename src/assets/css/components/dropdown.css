@@ -1,6 +1,7 @@
 .c-dropdown {
   position: relative;
   padding: calc(var(--bsl) / 2);
+  cursor: pointer;
 
   &__dots {
     display: flex;
@@ -8,7 +9,6 @@
     justify-content: space-between;
     width: calc(var(--bsl) / 1.4);
     height: 100%;
-    cursor: pointer;
 
     & span {
       height: calc(var(--bsl) / 8);
@@ -21,14 +21,17 @@
   &__actions {
     position: absolute;
     top: calc(var(--bsl) * 1.25);
-    left: calc(var(--bsl) / 3);
+    left: 0;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
     min-width: var(--col-3);
-    padding: var(--bsl);
+    padding: calc(var(--bsl) / 2) var(--bsl);
     border-radius: var(--radius);
     background-color: var(--grey-darkest);
     opacity: 0;
-    transform: translate3d(0, calc(var(--bsl) / 2), 0);
-    transition: opacity .25s linear, transform .25s cubic-bezier(.75, 0, 0, 1);
+    transform: translate3d(0, calc(-1 * var(--bsl) / 3), 0);
+    transition: opacity .15s linear, transform .15s cubic-bezier(.5, 0, .5, 1);
     pointer-events: none;
 
     &--open {
@@ -41,7 +44,7 @@
       content: "";
       position: absolute;
       top: calc(-1 * var(--bsl) / 6);
-      left: calc(var(--bsl) / 3);
+      left: calc(var(--bsl) / 1.5);
       height: calc(var(--bsl) / 3);
       width: calc(var(--bsl) / 3);
       background-color: var(--grey-darkest);
