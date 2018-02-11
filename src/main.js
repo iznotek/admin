@@ -21,5 +21,6 @@ new Vue({
       }
     })
     this.$store.dispatch('loadCases')
+    this.$store.dispatch('loadPosts')
   }
 })

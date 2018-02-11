@@ -3,14 +3,14 @@
     <div class="c-form__fieldsets">
       <fieldset>
         <legend>SEO</legend>
-        <form-input type="text" name="Title" :copy="titleTip" v-model="title" />
-        <form-input type="textarea" name="Description *" :copy="descriptionTip" v-model="description" />
+        <form-input type="text" name="Title" copy="titleTip" v-model="title" />
+        <form-input type="textarea" name="Description *" copy="descriptionTip" v-model="description" />
       </fieldset>
       <fieldset>
         <legend>Details</legend>
-        <form-input type="file" name="Thumbnail *" :copy="thumbnailTip" @updateThumbnail="setThumbnail"/>
-        <form-input type="text" name="Headline *" :copy="headlineTip" v-model="headline" />
-        <form-input type="textarea" name="Summary *" :copy="summaryTip" v-model="summary" />
+        <form-input type="file" name="Thumbnail *" copy="thumbnailTip" @updateThumbnail="setThumbnail"/>
+        <form-input type="text" name="Headline *" copy="headlineTip" v-model="headline" />
+        <form-input type="textarea" name="Summary *" copy="summaryTip" v-model="summary" />
       </fieldset>
       <fieldset>
         <legend>Content</legend>
@@ -55,8 +55,7 @@
 import ContentEditor from '@/components/shared/ContentEditor'
 import FormInput from '@/components/shared/FormInput'
 import Modal from '@/components/shared/Modal'
-import { handleFile } from '@/components/mixins/handleFile'
-import { swapArrayItems } from '@/components/mixins/swapArrayItems'
+import { setUpForm } from '@/components/mixins/setUpForm'
 import { checkField } from '@/components/mixins/checkField'
 
 export default {
@@ -73,7 +72,6 @@ export default {
           this.title = item.title
           this.description = item.description
           this.thumbnail = !null
-          // this.thumbnailUrl = item.thumbnailUrl
           this.headline = item.headline
           this.content = item.content || []
           this.summary = item.summary
@@ -92,51 +90,23 @@ export default {
     return {
       id: '',
       title: '',
-      titleTip: '<p>Shows up in the browser tab. Replaced by headline if blank.</p>',
       description: '',
-      descriptionTip: '<p>Meta description: Describes what the case is about.</p>',
       thumbnail: null,
-      // thumbnailUrl: '',
-      thumbnailTip: '<p>The thumbnail shown on the different pages of the website.</p>',
       headline: '',
-      headlineTip: '<p>The headline of the case.</p>',
       summary: '',
-      summaryTip: '<p>The summary of the case. What was the challenge? What was the solution?</p>',
       content: [],
       // contentUrls: [],
-      contentTip: '<p>The content you want placed in the case.</p>',
       created: '',
-      modal: false,
-      modalTitle: 'Delete case',
-      modalCopy: '<p>Remove this case from the database? <em>This action can\'t be undone.</em></p>'
+      modal: false
     }
   },
   methods: {
-    addContentField (type) {
-      document.createElement('li')
-      this.content.push({
-        type: type
-      })
-    },
     closeModal () {
       this.modal = false
     },
     deleteCase () {
       this.$store.dispatch('deleteCase', this.id)
       this.$router.push('/cases')
-    },
-    handleContentFile (e, item, i) {
-      const file = e.target.files[0]
-      item.file = file
-
-      this.handleFile(e, 'contentImage', i)
-    },
-    moveContent (i, direction) {
-      if (direction === 'up') {
-        this.swapItems(this.content, i, i - 1)
-      } else if (direction === 'down') {
-        this.swapItems(this.content, i, i + 1)
-      }
     },
     publishCase () {
       if (this.formType === 'edit') {
@@ -174,13 +144,6 @@ export default {
         this.$router.push('/cases')
       }
     },
-    removeContent (i) {
-      this.content.splice(i, 1)
-      // this.contentUrls.splice(i, 1)
-    },
-    setThumbnail (value) {
-      this.thumbnail = value
-    },
     submitForm (e) {
       if (e.target.dataset.action === 'delete') {
         this.modal = true
@@ -195,14 +158,7 @@ export default {
       }
     }
   },
-  mixins: [checkField, handleFile, swapArrayItems],
-  mounted () {
-    if (this.formType === 'edit') {
-      const labels = [].slice.call(this.$el.querySelectorAll('.c-form__labelName'))
-      labels.map(label => label.classList.add('u-isUntransformed'))
-    }
-  },
-  props: ['formType'],
+  mixins: [checkField, setUpForm],
   watch: {
     currentCase () {
     }

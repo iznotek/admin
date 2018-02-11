@@ -13,7 +13,7 @@
           <input type="file" :id="`contentFile--${i}`" @change="handleContentFile($event, item, i)">
         </label>
         <label class="c-form__label" :for="`contentFile--${i}`" v-if="item.type.includes('quote')">
-          <textarea class="c-form__input" :id="`contentFile--${i}`" v-model="item.text"></textarea>
+          <textarea class="c-form__input" :id="`contentFile--${i}`" v-model="item.copy"></textarea>
         </label>
         <div class="c-form__actions c-form__actions--input">
           <button class="c-button c-button--secondary" @click.prevent="moveContent(i, 'up')">Up</button>
@@ -45,7 +45,6 @@ export default {
   props: ['content'],
   watch: {
     content () {
-      console.log('this.content: ', this.content)
     }
   }
 }

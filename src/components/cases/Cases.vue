@@ -12,16 +12,16 @@
       <article class="c-card" v-for="(item, i) in cases" :key="i">
         <header class="c-card__header">
           <h1>
-            <router-link :to="`/edit/${item.id}`" exact>{{item.headline}}</router-link>
+            <router-link :to="`/cases/edit/${item.id}`" exact>{{item.headline}}</router-link>
           </h1>
           <time class="c-card__date" :datetime="item.created">{{formatDate(item.created)}}</time>
           <!-- Published date? ^^^ -->
         </header>
-        <router-link :to="`/edit/${item.id}`" exact>
+        <router-link :to="`/cases/edit/${item.id}`" exact>
           <lazy-image :classes="'c-card__thumbnail'" :src="item.thumbnailUrl" :alt="item.headline" />
         </router-link>
         <div class="c-card__actions">
-          <router-link class="c-button c-button--l" :to="`/edit/${item.id}`" exact>Edit</router-link>
+          <router-link class="c-button c-button--l" :to="`/cases/edit/${item.id}`" exact>Edit</router-link>
           <button class="c-button c-button--secondary">Delete</button>
         </div>
       </article>

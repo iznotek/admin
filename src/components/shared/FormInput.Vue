@@ -31,6 +31,13 @@ export default {
           this.thumbnailUrl = item.thumbnailUrl
         }
       })
+    },
+    currentPost () {
+      return this.$store.getters.loadedPosts.filter((item) => {
+        if (item.id === this.$route.params.id) {
+          this.thumbnailUrl = item.thumbnailUrl
+        }
+      })
     }
   },
   data () {
@@ -54,6 +61,8 @@ export default {
   props: ['type', 'name', 'copy', 'value'],
   watch: {
     currentCase () {
+    },
+    currentPost () {
     }
   }
 }

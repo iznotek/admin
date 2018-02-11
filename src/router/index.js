@@ -12,7 +12,7 @@ import AddCase from '@/components/cases/AddCase'
 import EditCase from '@/components/cases/EditCase'
 import Posts from '@/components/posts/Posts'
 import AddPost from '@/components/posts/AddPost'
-// // import EditPost from '@/components/posts/EditPost'
+import EditPost from '@/components/posts/EditPost'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -76,7 +76,7 @@ export default new Router({
       component: AddCase
     },
     {
-      path: '/edit/:id',
+      path: '/cases/edit/:id',
       name: 'Edit case',
       component: EditCase
     },
@@ -89,11 +89,11 @@ export default new Router({
       path: '/posts/add',
       name: 'Add post',
       component: AddPost
+    },
+    {
+      path: '/posts/edit/:id',
+      name: 'Edit post',
+      component: EditPost
     }
-    // {
-    //   path: '/edit/:id',
-    //   name: 'Edit post',
-    //   component: EditPost
-    // }
   ]
 })
