@@ -27,6 +27,7 @@
 
 <script>
 export default {
+  // These methods are included in the setUpForm mixin
   methods: {
     addContentField (type) {
       this.$emit('addContentField', type)

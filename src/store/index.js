@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
+
 import shared from './shared'
 import cases from './cases'
 import posts from './posts'
@@ -13,5 +15,6 @@ export const store = new Vuex.Store({
     cases: cases,
     posts: posts,
     user: user
-  }
+  },
+  plugins: [createPersistedState()]
 })

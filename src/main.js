@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App'
-import * as firebase from 'firebase'
 import router from './router'
+import * as firebase from 'firebase'
 import { store } from './store'
 import { firebaseConfig } from '../firebase-config.js'
 

@@ -6,11 +6,6 @@
 
 <script>
 export default {
-  watch: {
-    src (url) {
-      this.$el.querySelector('img').src = url
-    }
-  },
   data () {
     return {
       ticking: false
@@ -91,6 +86,11 @@ export default {
   mounted () {
     this.chooseIntersectionTechnique()
   },
-  props: ['classes', 'src', 'alt']
+  props: ['classes', 'src', 'alt'],
+  watch: {
+    src (url) {
+      this.$el.querySelector('img').src = url
+    }
+  }
 }
 </script>

@@ -49,6 +49,7 @@ export default {
     }
   },
   methods: {
+    // Toggle component. See Posts.vue and Cases.vue
     displayAs (type, e) {
       const btn = e.currentTarget
       const activeClass = 'c-toggle__button--active'
