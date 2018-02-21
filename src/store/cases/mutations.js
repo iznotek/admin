@@ -3,11 +3,10 @@ export default {
     state.loadedCases = payload
   },
   addCase (state, payload) {
-    console.log('mutations: ', payload)
-    // state.loadedCases.splice(0, 1, payload)
-    state.loadedCases.push(payload)
-    // state.loadedCases.pop()
-    // state.loadedCases.shift()
+    state.loadedCases.splice(0, 1, payload)
+    state.loadedCases.reverse()
+    console.log('temp solution in cases/mutations: ', state.loadedCases)
+    // state.loadedCases.push(payload)
   },
   updateCase (state, payload) {
     const caseObj = state.loadedCases.find((targetCase) => {

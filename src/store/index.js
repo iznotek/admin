@@ -16,5 +16,9 @@ export const store = new Vuex.Store({
     posts: posts,
     user: user
   },
-  plugins: [createPersistedState()]
+  plugins: [createPersistedState({
+    reducer: modules => ({
+      user: modules.user
+    })
+  })] // Check if necessary when using PWA techniques, like IndexedDB
 })

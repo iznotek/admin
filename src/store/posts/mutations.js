@@ -3,8 +3,9 @@ export default {
     state.loadedPosts = payload
   },
   addPost (state, payload) {
-    console.log('mutations post: ', payload)
-    state.loadedPosts.push(payload)
+    state.loadedPosts.splice(0, 1, payload)
+    state.loadedPosts.reverse()
+    console.log('temp solution in posts/mutations: ', state.loadedPosts)
   },
   updatePost (state, payload) {
     const postObj = state.loadedPosts.find((targetPost) => {

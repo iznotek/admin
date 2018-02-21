@@ -2,11 +2,7 @@
   <article class="t-page">
     <header class="t-page__header">
         <h1 class="t-page__heading">{{this.$route.name}} <small>({{cases.length}})</small></h1>
-        <div class="c-toggle">
-          <button class="c-toggle__button c-toggle__button--active" @click="displayAs('grid', $event)">Grid</button>
-          <span class="c-toggle__divider"></span>
-          <button class="c-toggle__button" @click="displayAs('list', $event)">List</button>
-        </div>
+        <toggle :buttons="displayBtns" @toggle="switchDisplay"/>
     </header>
     <div class="t-page__content" :class="{'t-page__content--grid': grid, 't-page__content--list': list}">
       <article class="c-card" v-for="(item, i) in cases" :key="i">
@@ -32,31 +28,32 @@
 <script>
 import { formatDate } from '@/components/mixins/formatDate'
 import LazyImage from '@/components/shared/LazyImage'
+import Toggle from '@/components/shared/Toggle'
 
 export default {
   components: {
-    'lazyImage': LazyImage
+    'lazyImage': LazyImage,
+    'toggle': Toggle
   },
   computed: {
+    // Look into possibility to merge cases overview and posts overview in a more generic
+    // component. If design is the same though.
     cases () {
       return this.$store.getters.loadedCases
     }
   },
   data () {
     return {
+      displayBtns: [
+        { type: 'grid', active: true },
+        { type: 'list' }
+      ],
       grid: true,
       list: false
     }
   },
   methods: {
-    // Toggle component. See Posts.vue and Cases.vue
-    displayAs (type, e) {
-      const btn = e.currentTarget
-      const activeClass = 'c-toggle__button--active'
-
-      btn.parentNode.querySelector(`.${activeClass}`).classList.remove(`${activeClass}`)
-      btn.classList.add(`${activeClass}`)
-
+    switchDisplay (type) {
       if (type === 'grid') {
         this.grid = true
         this.list = false

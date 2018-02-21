@@ -43,57 +43,68 @@ export default new Router({
     {
       path: '/pages/home',
       name: 'Home',
-      component: Home
+      component: Home,
+      beforeEnter: AuthGuard
     },
     {
       path: '/pages/work',
       name: 'Work',
-      component: Work
+      component: Work,
+      beforeEnter: AuthGuard
     },
     {
       path: '/pages/blog',
       name: 'Blog',
-      component: Blog
+      component: Blog,
+      beforeEnter: AuthGuard
     },
     {
       path: '/pages/about',
       name: 'About',
-      component: About
+      component: About,
+      beforeEnter: AuthGuard
     },
     {
       path: '/pages/contact',
       name: 'Contact',
-      component: Contact
+      component: Contact,
+      beforeEnter: AuthGuard
     },
     {
       path: '/cases',
       name: 'Cases',
-      component: Cases
+      component: Cases,
+      beforeEnter: AuthGuard
     },
     {
       path: '/cases/add',
       name: 'Add case',
-      component: AddCase
+      component: AddCase,
+      beforeEnter: AuthGuard
     },
     {
       path: '/cases/edit/:id',
       name: 'Edit case',
-      component: EditCase
+      component: EditCase,
+      beforeEnter: AuthGuard
     },
     {
       path: '/posts',
       name: 'Posts',
-      component: Posts
+      component: Posts,
+      beforeEnter: AuthGuard
     },
     {
       path: '/posts/add',
       name: 'Add post',
-      component: AddPost
+      component: AddPost,
+      beforeEnter: AuthGuard
     },
     {
       path: '/posts/edit/:id',
       name: 'Edit post',
-      component: EditPost
+      component: EditPost,
+      beforeEnter: AuthGuard
     }
   ]
 })

@@ -5,7 +5,7 @@
         <router-link class="c-mainMenu__userIcon" to="/" exact>
           <h1 class="c-mainMenu__userName">CN</h1>
         </router-link>
-        <dropdown> <!-- Pass down type of dropdown, like style and orientation -->
+        <dropdown>
           <button class="c-button c-button--light">Settings</button>
           <button class="c-button c-button--light" @click="logOut">Log out</button>
         </dropdown>
@@ -56,28 +56,21 @@ export default {
   },
   computed: {
     blogLinks () {
-      return this.$router.options.routes.filter((item) => {
-        if (item.path.indexOf('posts') !== -1) {
-          return item
-        }
-      })
+      return this.$router.options.routes.filter(item => this.getMenuRoutes(item, 'posts'))
     },
     casesLinks () {
-      return this.$router.options.routes.filter((item) => {
-        if (item.path.indexOf('cases') !== -1) {
-          return item
-        }
-      })
+      return this.$router.options.routes.filter(item => this.getMenuRoutes(item, 'cases'))
     },
     pagesLinks () {
-      return this.$router.options.routes.filter((item) => {
-        if (item.path.indexOf('pages') !== -1) {
-          return item
-        }
-      })
+      return this.$router.options.routes.filter(item => this.getMenuRoutes(item, 'pages'))
     }
   },
   methods: {
+    getMenuRoutes (item, name) {
+      if (item.path.indexOf(name) !== -1 && !item.path.match('edit')) {
+        return item
+      }
+    },
     logOut () {
       this.$store.dispatch('logOut')
       this.$router.push('/sign-in')

@@ -11,6 +11,7 @@ export default {
       for (let key in obj) {
         posts.push({
           id: key,
+          postId: obj[key].postId,
           title: obj[key].title,
           source: obj[key].source,
           thumbnailUrl: obj[key].thumbnailUrl,
@@ -26,6 +27,7 @@ export default {
   },
   addPost ({commit, getters}, payload) {
     const posts = {
+      postId: `${payload.title.toLowerCase()}-${Math.random().toString(36).substring(7)}`,
       title: payload.title,
       source: payload.source,
       created: payload.created.toISOString(),
@@ -62,7 +64,7 @@ export default {
             return firebase.database().ref('posts').child(key).update({content: updatedContentArr})
           })
           .then(() => {
-            commit('addCase', {
+            commit('addPost', {
               ...posts,
               content: content,
               thumbnailUrl: thumbnailUrl,

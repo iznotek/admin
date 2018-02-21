@@ -11,6 +11,7 @@ export default {
       for (let key in obj) {
         cases.push({
           id: key,
+          caseId: obj[key].caseId,
           title: obj[key].title,
           description: obj[key].description,
           thumbnailUrl: obj[key].thumbnailUrl,
@@ -28,6 +29,7 @@ export default {
   },
   addCase ({commit, getters}, payload) {
     const cases = {
+      caseId: `${payload.title.toLowerCase()}-${Math.random().toString(36).substring(7)}`,
       title: payload.title,
       description: payload.description,
       headline: payload.headline,
@@ -56,11 +58,12 @@ export default {
         const contentArr = payload.content
         const uploadStatus = []
 
+        // TODO: Try to unnest this promise inside promise.
+        // Might be able to chain the promises. So return the content array and use updatedContentArray in a new then() outside this then().
         Promise.all(contentArr.map(
           item => putStorageFile(item, key, uploadStatus))
         )
           .then((updatedContentArr) => {
-            console.log('new URL objects: ', updatedContentArr)
             if (updatedContentArr.length === 0) {
               updatedContentArr = [null]
             }
